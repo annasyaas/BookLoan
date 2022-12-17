@@ -13,9 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('recommendations');
         Schema::create('recommendations', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->bigInteger('member_id')->unsigned();
+            $table->bigInteger('book_id')->unsigned();
+            $table->string('prediction');
             $table->timestamps();
+            $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade');
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
         });
     }
 
