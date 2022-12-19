@@ -23,7 +23,8 @@ class UserSeederTable extends Seeder
     {
         User::create([
             'username' => 'annasya',
-            'password' => bcrypt('12345')
+            'password' => bcrypt('12345'),
+            'member' => 1
         ]);
     }
 }

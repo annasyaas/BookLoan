@@ -1,54 +1,50 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Book Loan UNMUL | Dashboard</title>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Book Loan UNMUL</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
-    <!-- Custom styles for this template -->
-    <link href="/css/dashboard.css" rel="stylesheet">
+  <!-- CSS Libraries -->
 
-    {{-- Trix Editor --}}
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
-    <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
-
-    <style>
-        trix-toolbar [data-trix-button-group="file-tools"] {
-            display: none;
-        }
-    </style>
-    @stack('css')
+  <!-- Template CSS -->
+  <link rel="stylesheet" href={{ asset("admin/assets/css/style.css") }}>
+  <link rel="stylesheet" href={{ asset("admin/assets/css/components.css") }}>
 </head>
 
 <body>
+  <div id="app">
+    <div class="main-wrapper">
+      @include('dashboard.layouts.header')
+      @include('dashboard.layouts.sidebar')
 
-    @include('dashboard.layouts.header')
+      <!-- Main Content -->
+      <div class="main-content">
+        @yield('container')
+      </div>
 
-    <div class="container-fluid">
-        <div class="row">
-
-            @include('dashboard.layouts.sidebar')
-
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                @yield('container')
-            </main>
-        </div>
+      @include('dashboard.layouts.footer')
     </div>
+  </div>
 
+  <!-- General JS Scripts -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="{{ asset("admin/assets/js/stisla.js") }}"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
-        integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous">
-    </script>
-    <script src="/js/dashboard.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    @stack('js')
+  <!-- JS Libraies -->
+
+  <!-- Template JS File -->
+  <script src="{{ asset("admin/assets/js/scripts.js") }}"></script>
+  <script src="{{ asset("admin/assets/js/custom.js") }}"></script>
+
+  <!-- Page Specific JS File -->
 </body>
-
 </html>

@@ -1,32 +1,13 @@
-<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-    <div class="position-sticky pt-3 sidebar-sticky">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" aria-current="page" href="/dashboard">
-                    <span data-feather="home" class="align-text-bottom"></span>
-                    Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('dashboard/buku*') ? 'active' : '' }}" href="/dashboard/buku">
-                    <span data-feather="file-text" class="align-text-bottom"></span>
-                    My Books
-                </a>
-            </li>
+<div class="main-sidebar">
+    <aside id="sidebar-wrapper">
+        <div class="sidebar-brand mt-2">
+            <a href="/">BOOK LOAN UNMUL</a>
+        </div>
+        <ul class="sidebar-menu mt-3">
+            <li class="active"><a class="nav-link" href="/"><i class="far fa-square"></i> <span>Dashboard</span></a></li>
+            <li class="active"><a class="nav-link" href="/"><i class="far fa-square"></i> <span>Buku</span></a></li>
+            <li class="active"><a class="nav-link" href="/"><i class="far fa-square"></i> <span>Member</span></a></li>
+            <li class="active"><a class="nav-link" href="/"><i class="far fa-square"></i> <span>Peminjaman Buku</span></a></li>
         </ul>
-
-        @can('admin')
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Administrator</span>
-        </h6>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('dashboard/categories*') ? 'active' : '' }}" href="/dashboard/categories">
-                    <span data-feather="grid" class="align-text-bottom"></span>
-                    Kategori Buku
-                </a>
-            </li>
-        </ul>
-        @endcan
-    </div>
-</nav>
+    </aside>
+</div>

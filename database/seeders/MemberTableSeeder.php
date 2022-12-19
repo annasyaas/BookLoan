@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Member;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class MemberTableSeeder extends Seeder
 {
@@ -14,6 +15,9 @@ class MemberTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Member::create([
+            'member_id' => '1615015166',
+            'name' => 'Annasya Sintha Ambira'
+        ]);
     }
 }

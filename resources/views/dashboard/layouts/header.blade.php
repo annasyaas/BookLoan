@@ -1,18 +1,31 @@
-<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Book Loan UNMUL</a>
-    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
-        data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
-        aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search"
-        aria-label="Search">
-    <div class="navbar-nav">
-        <div class="nav-item text-nowrap">
-            <form action="/logout" method="post">
-                @csrf
-                <button type="submit" class="btn nav-link px-3">Logout <span data-feather="log-out" class="align-text-bottom"></span></button>
-            </form>
+<div class="navbar-bg"></div>
+<nav class="navbar navbar-expand-lg main-navbar">
+    <form class="form-inline mr-auto">
+        <ul class="navbar-nav mr-3">
+            <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+            <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i
+                        class="fas fa-search"></i></a></li>
+        </ul>
+        <div class="search-element">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="250">
+            <button class="btn" type="submit"><i class="fas fa-search"></i></button>
         </div>
-    </div>
-</header>
+    </form>
+    <ul class="navbar-nav navbar-right">
+        <li class="dropdown"><a href="#" data-toggle="dropdown"
+                class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                <img alt="image" src="{{ asset("admin/assets/img/avatar/avatar-1.png") }}" class="rounded-circle mr-1">
+                <div class="d-sm-none d-lg-inline-block">Hi, {{ auth()->user()->members->name }}</div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-divider"></div>
+                <form action="/logout" method="post">
+                    @csrf
+                    <button type="submit" class="dropdown-item has-icon text-danger">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </form>
+            </div>
+        </li>
+    </ul>
+</nav>
