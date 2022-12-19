@@ -1,69 +1,109 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Form Tambah Buku</h1>
-    </div>
-    <div class="col-lg-8">
-        <form method="post" action="/dashboard/buku" class="mb-5">
-            @csrf
-            <div class="mb-3">
-                <label for="judul" class="form-label">Judul Buku</label>
-                <input type="text" class="form-control @error('judul') is-invalid @enderror" id="judul" name="judul"
-                value="{{ old('judul') }}" required autofocus>
-                @error('judul')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
-            </div>
-            <div class="mb-3">
-                <label for="slug" class="form-label">Slug</label>
-                <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug"
-                value="{{ old('slug') }}" readonly required>
-                @error('slug')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
-            </div>
-            <div class="mb-3">
-                <label for="category_id" class="form-label">Kategori</label>
-                <select class="form-select" name="category_id">
-                    @foreach ($categories as $category)
-                    @if (old('category_id') == $category->id)
-                    <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
-                    @else
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endif
-                    @endforeach
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="image" class="form-label">Post Image</label>
-                <img class="imagePreview img-fluid mb-3 col-sm-5">
-                <input type="file" name="image" id="image" class="form-control 
-                    @error('image') is-invalid @enderror" onchange="imagePreview()">
-                @error('image')
-                    <div class="invalid-feedback">
-                        {{ $message }}
+    <section class="section">
+        <div class="section-header">
+            <h1>Create Book Page</h1>
+        </div>
+        <div class="section-body">
+            <div class="col-lg-8">
+                <form method="post" action="/book" class="mb-5">
+                    @csrf
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="call_number" class="form-label">Nomor Panggil Buku</label>
+                                <input type="text" class="form-control @error('call_number') is-invalid @enderror" id="call_number"
+                                    name="call_number" value="{{ old('call_number') }}" required autofocus>
+                                @error('call_number')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
-                @enderror
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Judul Buku</label>
+                                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title"
+                                    name="title" value="{{ old('title') }}" required>
+                                @error('title')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="mb-3">
+                                <label for="copy" class="form-label">Jumlah Salin Buku</label>
+                                <input type="number" min="1" class="form-control @error('copy') is-invalid @enderror" id="copy"
+                                    name="copy" value="{{ old('copy') }}" required>
+                                @error('copy')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="mb-3">
+                                <label for="publish_place" class="form-label">Tempat Terbit Buku</label>
+                                <input type="text" class="form-control @error('publish_place') is-invalid @enderror" id="publish_place"
+                                    name="publish_place" value="{{ old('publish_place') }}" required>
+                                @error('publish_place')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="mb-3">
+                                <label for="publisher" class="form-label">Penerbit Buku</label>
+                                <input type="text" class="form-control @error('publisher') is-invalid @enderror" id="publisher"
+                                    name="publisher" value="{{ old('publisher') }}" required>
+                                @error('publisher')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="isbn_issn" class="form-label">ISBN/ISSN Buku</label>
+                                <input type="text" class="form-control @error('isbn_issn') is-invalid @enderror" id="isbn_issn"
+                                    name="isbn_issn" value="{{ old('isbn_issn') }}" required>
+                                @error('isbn_issn')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <button type="submit" class="btn btn-primary mt-4">Tambah Buku</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="desc" class="form-label">Body</label>
-                <input id="desc" type="hidden" name="desc" value="{{ old('desc') }}">
-                <trix-editor input="desc"></trix-editor>
-                @error('desc')
-                    <p class="text-danger">{{ $message }}</p>
-                @enderror
-            </div>
-            <button type="submit" class="btn btn-primary">Tambah Buku</button>
-        </form>
-    </div>
+        </div>
+    </section>
 
-    <script>
-        const judul = document.querySelector('#judul');
+    {{-- <script>
         const slug = document.querySelector('#slug');
 
         judul.addEventListener('change', function() {
@@ -71,24 +111,5 @@
                 .then(response => response.json())
                 .then(data => slug.value = data.slug)
         });
-
-        document.addEventListener('trix-file-accept', function(e) {
-            e.preventDefault();
-        });
-
-        function imagePreview(){
-            const image = document.querySelector('#image');
-            const imagePreview = document.querySelector('.imagePreview');
-
-            imagePreview.style.display = 'block';
-
-            const oFReader = new FileReader();
-            oFReader.readAsDataURL(image.files[0]);
-
-            oFReader.onload = function(oFREvent){
-                imagePreview.src = oFREvent.target.result;
-            }
-
-        }
-    </script>
+    </script> --}}
 @endsection

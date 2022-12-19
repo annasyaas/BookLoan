@@ -14,6 +14,8 @@
   <!-- Template CSS -->
   <link rel="stylesheet" href={{ asset("admin/assets/css/style.css") }}>
   <link rel="stylesheet" href={{ asset("admin/assets/css/components.css") }}>
+
+  @stack('css')
 </head>
 
 <body>
@@ -46,5 +48,6 @@
   <script src="{{ asset("admin/assets/js/custom.js") }}"></script>
 
   <!-- Page Specific JS File -->
+  @stack('js')
 </body>
 </html>

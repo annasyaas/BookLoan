@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use App\Models\User;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Auth;
@@ -24,3 +25,6 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/', function(){
     return view('dashboard.index');
 })->middleware('auth');
+
+Route::resource('/book', BookController::class)->middleware('auth');
+Route::get('/getDatas', [BookController::class, 'datas'])->middleware('auth');

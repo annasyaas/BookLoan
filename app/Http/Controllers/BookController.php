@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+    public function __construct()
+    {
+        $this->model = Book::orderBy('id', 'ASC')->get();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.books.index');
     }
 
     /**
@@ -24,7 +29,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.books.create');
     }
 
     /**
@@ -35,7 +40,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**
@@ -81,5 +86,24 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         //
+    }
+    
+    public function datas(){
+
+        $datas = $this->model;
+
+        foreach($datas as $data) {
+            $data['action'] = "
+            <a href='/book/". $data->id ."' class='btn btn-sm btn-info'>
+                <i class='fa fa-eye'></i></a>
+            <a href='/book/".$data->id ."/edit' class='btn btn-sm btn-warning'>
+                <i class='fa fa-pencil-alt'></i></a>
+            <form action='/book/". $data->id."' method='post' class='d-inline'>
+                <button class='btn btn-sm btn-danger border-0' onclick='return confirm('Are you sure?')'>
+                <i class='fa fa-trash'></i></button>
+            </form>
+            ";
+        }
+       return response()->json($datas, 200);
     }
 }
