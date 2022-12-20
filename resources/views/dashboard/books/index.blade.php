@@ -9,10 +9,12 @@
         </div>
         <div class="section-body">
             @if (session()->has('success'))
-                <div class="col-lg-8">
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <div class="alert alert-success alert-dismissible show fade">
+                    <div class="alert-body">
+                        <button class="close" data-dismiss="alert">
+                            <span>&times;</span>
+                        </button>
                         {{ @session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 </div>
             @endif
@@ -46,13 +48,24 @@
                 url: '/getDatas',
                 dataSrc: ''
             },
-            columns: [
-                { data: 'id' },
-                { data: 'call_number'},
-                { data: 'title'},
-                { data: 'copy'},
-                { data: 'publisher'},
-                { data: 'action'}
+            columns: [{
+                    data: 'id'
+                },
+                {
+                    data: 'call_number'
+                },
+                {
+                    data: 'title'
+                },
+                {
+                    data: 'copy'
+                },
+                {
+                    data: 'publisher'
+                },
+                {
+                    data: 'action'
+                }
             ]
         });
 
