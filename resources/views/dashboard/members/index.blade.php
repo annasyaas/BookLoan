@@ -1,52 +1,75 @@
 @extends('dashboard.layouts.main')
-
+@push('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css">
+@endpush
 @section('container')
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Book Categories</h1>
-    </div>
-    @if (session()->has('success'))
-        <div class="col-lg-6">
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ @session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+    <div class="section">
+        <div class="section-header">
+            <h1>Member Page</h1>
         </div>
-    @endif
-    <div>
-        <div class="table-responsive col-lg-6">
-            <a href="/dashboard/categories/create" class="btn btn-primary mb-3">Create New</a>
-            <table class="table table-striped table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Nama</th>
-                        <th scope="col" class="text-center">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($categories as $category)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $category->name }}</td>
-                            <td class="text-center">
-                                <a href="/dashboard/categories/{{ $category->slug }}" class="badge bg-info">
-                                    <span data-feather="eye"></span>
-                                </a>
-                                <a href="/dashboard/categories/{{ $category->slug }}/edit" class="badge bg-warning">
-                                    <span data-feather="edit"></span>
-                                </a>
-                                <form action="/dashboard/categories/{{ $category->slug }}" method="post" class="d-inline">
-                                    @method('delete')
-                                    @csrf
-                                    <button class="badge bg-danger border-0" onclick="return confirm('Are you sure?')">
-                                        <span data-feather="trash"></span>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        <div class="section-body">
+            @if (session()->has('success'))
+                <div class="alert alert-success alert-dismissible show fade">
+                    <div class="alert-body">
+                        <button class="close" data-dismiss="alert">
+                            <span>&times;</span>
+                        </button>
+                        {{ @session('success') }}
+                    </div>
+                </div>
+            @elseif (session()->has('failed'))
+                <div class="alert alert-danger alert-dismissible show fade">
+                    <div class="alert-body">
+                        <button class="close" data-dismiss="alert">
+                            <span>&times;</span>
+                        </button>
+                        {{ @session('failed') }}
+                    </div>
+                </div>
+            @endif
+            <div>
+                <div class="table-responsive col-lg-8">
+                    <a href="{{ route('member.create') }}" class="btn btn-primary mb-3">Create New</a>
+                    <table class="table table-striped table-sm" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">No. Member</th>
+                                <th scope="col">Nama</th>
+                                <th scope="col" class="text-center" width="20%">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($members as $member)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $member->member_id }}</td>
+                                    <td>{{ $member->name }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ route('member.edit', $member->id) }}" class="btn btn-sm btn-warning"><i
+                                                class="fa fa-pencil-alt"></i></a>
+                                        <form action="{{ route('member.destroy', $member->id) }}" method="post"
+                                            class="d-inline">
+                                            @method('delete')
+                                            @csrf
+                                            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
+@push('js')
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable();
+        })
+    </script>
+@endpush

@@ -6,6 +6,7 @@ use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,5 +27,8 @@ Route::get('/', function(){
     return view('dashboard.index');
 })->middleware('auth');
 
-Route::resource('/book', BookController::class)->middleware('auth');
+Route::delete('/book/delete/{id}', [BookController::class, 'destroy'])->middleware('auth')->name('book.delete');
+Route::resource('/book', BookController::class)->except('destroy')->middleware('auth');
 Route::get('/getDatas', [BookController::class, 'datas'])->middleware('auth');
+
+Route::resource('/member', MemberController::class)->except('show')->middleware('auth');

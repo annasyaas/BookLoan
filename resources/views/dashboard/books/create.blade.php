@@ -6,11 +6,11 @@
             <h1>Create Book Page</h1>
         </div>
         <div class="section-body">
-            <div class="col-lg-8">
+            <div class="col-lg-12">
                 <form method="post" action="/book" class="mb-5">
                     @csrf
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div class="mb-3">
                                 <label for="call_number" class="form-label">Nomor Panggil Buku</label>
                                 <input type="text" class="form-control @error('call_number') is-invalid @enderror" id="call_number"
@@ -22,8 +22,6 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-8">
                             <div class="mb-3">
                                 <label for="title" class="form-label">Judul Buku</label>
@@ -50,8 +48,6 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-8">
                             <div class="mb-3">
                                 <label for="publish_place" class="form-label">Tempat Terbit Buku</label>
@@ -78,9 +74,7 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div class="mb-3">
                                 <label for="isbn_issn" class="form-label">ISBN/ISSN Buku</label>
                                 <input type="text" class="form-control @error('isbn_issn') is-invalid @enderror" id="isbn_issn"
@@ -93,9 +87,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-5">
-                            <button type="submit" class="btn btn-primary mt-4">Tambah Buku</button>
+                    <div class="row text-center mt-4">
+                        <div class="col-lg-12">
+                            <a href="{{ route('book.index') }}" class="btn btn-success text-decoration-none mr-2">
+                                <span data-feather="arrow-left"></span> Kembali
+                            </a>
+                            <button type="submit" class="btn btn-primary">Tambah Buku</button>
                         </div>
                     </div>
                 </form>

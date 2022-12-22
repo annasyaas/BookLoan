@@ -56,7 +56,9 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        return view('dashboard.books.show', [
+            'book' => $book
+        ]);
     }
 
     /**
@@ -67,7 +69,9 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        return view('dashboard.books.edit', [
+            'book' => $book
+        ]);
     }
 
     /**
@@ -77,9 +81,15 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(BookRequest $request, Book $book)
     {
-        //
+        // Validasi request melalui form request buatan
+        $item = $request->validated();
+        
+        // Update data yang telah lolos validasi
+        Book::where('id', $book->id)->update($item);
+
+        return redirect()->route('book.index')->with('success', 'Data Buku berhasil diperbarui.');
     }
 
     /**
@@ -88,26 +98,18 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Book $book)
+    public function destroy($id)
     {
-        //
+        dd($id);
+        // Book::destroy($book);
     }
     
     public function datas(){
 
         $datas = $this->model;
-
+        $i = 1;
         foreach($datas as $data) {
-            $data['action'] = "
-            <a href='/book/". $data->id ."' class='btn btn-sm btn-info'>
-                <i class='fa fa-eye'></i></a>
-            <a href='/book/".$data->id ."/edit' class='btn btn-sm btn-warning'>
-                <i class='fa fa-pencil-alt'></i></a>
-            <form action='/book/". $data->id."' method='post' class='d-inline'>
-                <button class='btn btn-sm btn-danger border-0' onclick='return confirm('Are you sure?')'>
-                <i class='fa fa-trash'></i></button>
-            </form>
-            ";
+            $data['number'] = $i++;
         }
        return response()->json($datas, 200);
     }
