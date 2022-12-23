@@ -17,4 +17,8 @@ class Member extends Model
     public function user(){
         return $this->hasOne(User::class, 'member_id');
     }
+
+    public function loans(){
+        return $this->hasMany(Loan::class);
+    }
 }

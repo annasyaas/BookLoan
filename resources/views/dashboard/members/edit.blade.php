@@ -39,7 +39,7 @@
                     </div>
                     <div class="row text-center mt-4">
                         <div class="col-lg-12">
-                            <a href="{{ route('book.index') }}" class="btn btn-success text-decoration-none mr-2">
+                            <a href="{{ route('member.index') }}" class="btn btn-success text-decoration-none mr-2">
                                 <span data-feather="arrow-left"></span> Kembali
                             </a>
                             <button type="submit" class="btn btn-primary">Update Member</button>

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use App\Models\Loan;
+use App\Models\Member;
 use Illuminate\Http\Request;
+use App\Http\Requests\LoanRequest;
 
 class LoanController extends Controller
 {
@@ -14,7 +17,11 @@ class LoanController extends Controller
      */
     public function index()
     {
-        //
+        $loans = Loan::with('member', 'book')->get();
+    
+        return view('dashboard.loans.index', [
+            'loans' => $loans
+        ]);
     }
 
     /**
@@ -24,7 +31,13 @@ class LoanController extends Controller
      */
     public function create()
     {
-        //
+        $members = Member::all();
+        $books = Book::all();
+
+        return view('dashboard.loans.create', [
+            'members' => $members,
+            'books' => $books
+        ]);
     }
 
     /**
@@ -33,9 +46,14 @@ class LoanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(LoanRequest $request)
     {
-        //
+        $datas = $request->validated();
+        $datas['status'] = 0;
+
+        Loan::create($datas);
+
+        return redirect()->route('loan.index')->with('success', 'Data Peminjaman berhasil ditambahkan.');
     }
 
     /**
@@ -46,7 +64,7 @@ class LoanController extends Controller
      */
     public function show(Loan $loan)
     {
-        //
+        
     }
 
     /**
@@ -57,7 +75,14 @@ class LoanController extends Controller
      */
     public function edit(Loan $loan)
     {
-        //
+        $members = Member::all();
+        $books = Book::all();
+        
+        return view('dashboard.loans.edit', [
+            'loan' => $loan,
+            'members' => $members,
+            'books' => $books
+        ]); 
     }
 
     /**

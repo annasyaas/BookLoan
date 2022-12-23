@@ -16,4 +16,8 @@ class Book extends Model
         'publisher',
         'isbn_issn'
     ];
+
+    public function loans(){
+        return $this->hasMany(Loan::class);
+    }
 }
