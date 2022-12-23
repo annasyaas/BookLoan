@@ -20,7 +20,7 @@
             @endif
             <div>
                 <div class="table-responsive col-lg-12">
-                    <a href="/book/create" class="btn btn-primary mb-3">Create New</a>
+                    <a href="{{ route('book.create') }}" class="btn btn-primary mb-3">Create New</a>
                     <table class="table table-sm" id="dataTable" style="width: 100%">
                         <thead>
                             <tr>

@@ -6,13 +6,13 @@
     <div>
         <article>
             <h3 class="mb-3"><b>{{ $book->title }}</b></h3>
-            <a href="/book" class="badge btn-success text-decoration-none">
+            <a href="{{ route('book.index') }}" class="badge btn-success text-decoration-none">
                 <span data-feather="arrow-left"></span> Back to my post
             </a>
-            <a href="/book/{{ $book->id }}/edit" class="badge btn-warning text-decoration-none">
+            <a href="{{ route('book.edit', $book->id) }}/edit}}" class="badge btn-warning text-decoration-none">
                 <span data-feather="edit"></span> Edit
             </a>
-            <form action="/book/{{ $book->id }}" method="post" class="d-inline">
+            <form action="{{ route('book.destroy', $book->id) }}}}" method="post" class="d-inline">
                 @method('delete')
                 @csrf
                 <button class="badge bg-danger border-0" onclick="return confirm('Are you sure?')">

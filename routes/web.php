@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\LoanController;
 use App\Models\User;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,16 +21,21 @@ use App\Http\Controllers\MemberController;
 |
 */
 
-Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
+Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate']);
-Route::post('/logout', [LoginController::class, 'logout']);
+
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::get('/', function(){
     return view('dashboard.index');
-})->middleware('auth');
+})->middleware('auth')->name('dashboard');
 
 Route::delete('/book/delete/{id}', [BookController::class, 'destroy'])->middleware('auth')->name('book.delete');
-Route::resource('/book', BookController::class)->except('destroy')->middleware('auth');
+Route::resource('/book', BookController::class)->middleware('auth')->except('destroy');
 Route::get('/getDatas', [BookController::class, 'datas'])->middleware('auth');
 
-Route::resource('/member', MemberController::class)->except('show')->middleware('auth');
+Route::resource('/member', MemberController::class)->middleware('auth')->except('show');
+
+Route::resource('/user', UserController::class)->middleware('auth')->except('show');
+
+Route::resource('/loan', LoanController::class)->middleware('auth');

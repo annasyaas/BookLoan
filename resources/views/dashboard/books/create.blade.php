@@ -7,7 +7,7 @@
         </div>
         <div class="section-body">
             <div class="col-lg-12">
-                <form method="post" action="/book" class="mb-5">
+                <form method="post" action="{{ route('book.store') }}" class="mb-5">
                     @csrf
                     <div class="row">
                         <div class="col-lg-4">
