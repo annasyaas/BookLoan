@@ -24,12 +24,12 @@ class UserRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'password' => 'required|min:8',
             'member' => 'required'
         ];
-
+        
         if (request()->isMethod('POST')) {
             $rules['username'] = 'required|unique:users';
+            $rules['password'] = 'required|min:8';
             
             return $rules;
         } else {

@@ -17,6 +17,15 @@
                         {{ @session('success') }}
                     </div>
                 </div>
+            @elseif (session()->has('failed'))
+                <div class="alert alert-danger alert-dismissible show fade">
+                    <div class="alert-body">
+                        <button class="close" data-dismiss="alert">
+                            <span>&times;</span>
+                        </button>
+                        {{ @session('failed') }}
+                    </div>
+                </div>
             @endif
             <div>
                 <div class="table-responsive col-lg-12">
@@ -58,11 +67,10 @@
             </div>
         </div>
     </section>
-    
 @endsection
 @push('js')
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
             $('#dataTable').DataTable();
         });
     </script>

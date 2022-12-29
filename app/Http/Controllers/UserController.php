@@ -7,6 +7,8 @@ use App\Models\Member;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 
+use function PHPUnit\Framework\isNull;
+
 class UserController extends Controller
 {
     /**
@@ -107,15 +109,21 @@ class UserController extends Controller
     public function update(UserRequest $request, $id)
     {
         $user = User::find($id);
-
+        
         //jika username baru dan lama sama, maka validasi request
         if($request['username'] != $user->username){
             $request->validate([
                 'username' => 'required|unique:users'
             ]);
         }
-        //enkripsi password
-        $request['password'] = bcrypt($request['password']);
+
+        //cek apakah password kosong, jika kosong password sama dengan yang lama
+        if (is_null($request['password'])) {
+            $request['password'] = $user->password;
+        } else {
+            //jika password tidak null maka password di enkripsi
+            $request['password'] = bcrypt($request['password']);
+        }
 
         //cek jika ada atribut is_admin maka atribut admin bernilai 1
         if($request['is_admin']){
@@ -140,10 +148,16 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        if(User::destroy($id)){
-            return redirect()->route('user.index')->with('success', 'Data User berhasil dihapus.');
-        }else{
-            return redirect()->route('user.index')->with('failed', 'Data User gagal dihapus.');
+        $user = User::find($id);
+
+        if(auth()->user()->id != $user->id){
+            if (User::destroy($id)) {
+                return redirect()->route('user.index')->with('success', 'Data User berhasil dihapus.');
+            } else {
+                return redirect()->route('user.index')->with('failed', 'Data User gagal dihapus.');
+            }
+        } else {
+            return redirect()->route('user.index')->with('failed', 'Gagal! Tidak dapat menghapus akun yang sedang aktif!');
         }
     }
 }

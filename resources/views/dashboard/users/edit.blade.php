@@ -46,9 +46,9 @@
                                         </div>
                                         <input type="password"
                                             class="form-control pwstrength @error('password') is-invalid @enderror"
-                                            data-indicator="pwindicator" name="password"
-                                            required>
+                                            data-indicator="pwindicator" name="password">
                                     </div>
+                                    <small style="color: red">*Kosongkan jika password tidak berubah</small style="color: red">
                                     <div id="pwindicator" class="pwindicator">
                                         <div class="bar"></div>
                                         <div class="label"></div>
@@ -85,7 +85,11 @@
                             <div class="form-group">
                                 <div class="control-label">is_admin</div>
                                 <label class="custom-switch mt-4">
-                                  <input type="checkbox" name="is_admin" class="custom-switch-input">
+                                    @if (old('is_admin', $user->is_admin == 1))
+                                        <input type="checkbox" name="is_admin" class="custom-switch-input" checked>
+                                    @else
+                                        <input type="checkbox" name="is_admin" class="custom-switch-input"> 
+                                    @endif
                                   <span class="custom-switch-indicator"></span>
                                 </label>
                               </div>
