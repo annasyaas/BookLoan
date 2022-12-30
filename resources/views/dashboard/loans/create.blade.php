@@ -18,7 +18,7 @@
                 <form method="post" action="{{ route('loan.store') }}" class="mb-5">
                     @csrf
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-5">
                             <div class="mb-3">
                                 <div class="form-group">
                                     <label for="memberSelect">Member</label>
@@ -37,12 +37,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-5">
                             <div class="mb-3">
                                 <div class="form-group">
                                     <label for="bookSelect">Buku</label>
                                     <select class="form-select form-select-sm" name="book_id" id="bookSelect"
-                                        data-placeholder="Pilih Buku">
+                                        data-placeholder="Pilih Buku" onchange="bookFunc(this)">
                                         <option value=""></option>
                                         @foreach ($books as $item)
                                             @if (old('book_id') == $item->id)
@@ -53,6 +53,14 @@
                                             @endif
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="copy">Sisa Copy Buku</label>
+                                    <input type="text" class="form-control" id="copy" disabled>
                                 </div>
                             </div>
                         </div>
@@ -107,11 +115,27 @@
     </section>
 @endsection
 @push('js')
-    <script>
+    <script type="text/javascript">
         $(document).ready(function() {
             $('#memberSelect').select2();
             $('#bookSelect').select2();
         });
+
+        function bookFunc(obj){
+            var id = obj.value;
+            var copy = document.getElementById('copy');
+            var url = '/getCopy/' + id;
+
+            $.ajax({
+                url: url,
+                type: 'get',
+                dataType: 'json',
+                success: function(data){
+                    copy.value = data;
+                }
+            });
+
+        }
     </script>
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -30,7 +30,7 @@ Route::get('/', function(){
     return view('dashboard.index');
 })->middleware('auth')->name('dashboard');
 
-Route::delete('/book/delete/{id}', [BookController::class, 'destroy'])->middleware('auth')->name('book.delete');
+Route::delete('/bookDelete', [BookController::class, 'deleteData'])->middleware('auth')->name('bookDelete');
 Route::resource('/book', BookController::class)->middleware('auth')->except('destroy');
 Route::get('/getDatas', [BookController::class, 'datas'])->middleware('auth');
 
@@ -39,3 +39,5 @@ Route::resource('/member', MemberController::class)->middleware('auth')->except(
 Route::resource('/user', UserController::class)->middleware('auth')->except('show');
 
 Route::resource('/loan', LoanController::class)->middleware('auth');
+Route::get('/getCopy/{id}', [LoanController::class, 'copy'])->middleware('auth');
+Route::post('/updateCopy', [LoanController::class, 'updateCopy'])->middleware('auth')->name('book.copy.update');

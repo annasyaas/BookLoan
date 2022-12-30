@@ -98,10 +98,11 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function deleteData(Request $request)
     {
-        dd($id);
-        // Book::destroy($book);
+        Book::destroy($request['id']);
+
+        return response()->json('berhasil', 200);
     }
     
     public function datas(){

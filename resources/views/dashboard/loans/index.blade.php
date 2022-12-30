@@ -33,7 +33,7 @@
                     <table class="table table-striped table-sm" id="dataTable">
                         <thead>
                             <tr>
-                                <th scope="col">No</th>
+                                <th scope="col" width="3%">No</th>
                                 <th scope="col">No. Member</th>
                                 <th scope="col">Nama Member</th>
                                 <th scope="col">Judul Buku</th>
@@ -47,19 +47,28 @@
                         <tbody>
                             @foreach ($loans as $loan)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $loan->member->member_id }}</td>
                                     <td>{{ $loan->member->name }}</td>
                                     <td>{{ $loan->book->title }}</td>
                                     <td>{{ $loan->copy_code }}</td>
                                     <td>{{ $loan->loan_date }}</td>
                                     <td>{{ $loan->date_returned }}</td>
-                                    <td>
-                                        @if ($loan->status == 1)
-                                            <div class="badge badge-sm badge-success">Sudah Kembali</div>
-                                        @else
-                                            <div class="badge badge-sm badge-warning">Belum Kembali</div>
-                                        @endif
+                                    <td class="mr-auto ml-auto d-block">
+                                        <div class="form-group">
+                                            <label class="custom-switch mt-0 pl-0">
+                                                @if ($loan->status == 1)
+                                                    <input type="checkbox"
+                                                        onclick="statusFunc(this, {{ $loan->id }}, {{ $loan->book->id }})"
+                                                        class="custom-switch-input" checked>
+                                                @else
+                                                    <input type="checkbox"
+                                                        onclick="statusFunc(this, {{ $loan->id }}, {{ $loan->book->id }})"
+                                                        class="custom-switch-input">
+                                                @endif
+                                                <span class="custom-switch-indicator"></span>
+                                            </label>
+                                        </div>
                                     </td>
                                     <td class="text-center">
                                         <a href="{{ route('loan.edit', $loan->id) }}" class="btn btn-sm btn-warning"><i
@@ -83,9 +92,44 @@
 @push('js')
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
-    <script>
+    <script type="text/javascript">
         $(document).ready(function() {
             $('#dataTable').DataTable();
         })
+
+        function statusFunc(obj, id, book) {
+
+            if (obj.checked) {
+                $.ajax({
+                    url: "{{ route('book.copy.update') }}",
+                    method: 'post',
+                    dataType: 'json',
+                    data: {
+                        id: id,
+                        copy: 1,
+                        book: book,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        window.location.reload();   
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: "{{ route('book.copy.update') }}",
+                    method: 'post',
+                    dataType: 'json',
+                    data: {
+                        id: id,
+                        copy: 0,
+                        book: book,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        window.location.reload();
+                    }
+                });
+            }
+        }
     </script>
 @endpush

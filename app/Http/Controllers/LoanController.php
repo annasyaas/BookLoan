@@ -32,7 +32,7 @@ class LoanController extends Controller
     public function create()
     {
         $members = Member::all();
-        $books = Book::all();
+        $books = Book::where('copy', '>', 0)->get();
 
         return view('dashboard.loans.create', [
             'members' => $members,
@@ -49,6 +49,12 @@ class LoanController extends Controller
     public function store(LoanRequest $request)
     {
         $datas = $request->validated();
+        
+        // mengurangi copy buku
+        $book = Book::find($datas['book_id']);
+        $book->copy = $book->copy - 1;
+        $book->save();       
+
         $datas['status'] = 0;
 
         Loan::create($datas);
@@ -92,9 +98,14 @@ class LoanController extends Controller
      * @param  \App\Models\Loan  $loan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Loan $loan)
+    public function update(LoanRequest $request, Loan $loan)
     {
-        //
+        $item = $request->validated();
+
+        $loan->update($item);
+        $loan->save();
+
+        return redirect()->route('loan.index')->with('success', 'Data Peminjaman berhasil diubah.');
     }
 
     /**
@@ -106,5 +117,34 @@ class LoanController extends Controller
     public function destroy(Loan $loan)
     {
         //
+    }
+
+    public function copy($id)
+    {
+        $copy = Book::where('id', $id)->pluck('copy');
+        
+        return response()->json($copy, 200);
+    }
+
+    public function updateCopy(Request $request)
+    {
+        $book = Book::find($request['book']);
+        $loan = Loan::find($request['id']);
+
+        //update status peminjaman sesuai request 
+        $loan->status = $request['copy'];
+        
+        //cek apakah peminjaman buku (0), pengembalian buku (1)
+        if($request['copy'] == 1) {
+            $book->copy = $book->copy + 1; //jika pengembalian, maka jumlah copy buku ditambah 1
+        } else {
+            $book->copy = $book->copy - 1; //jika peminjaman, maka jumlah copy buku dikurangi 1
+        }
+
+        if($book->save() && $loan->save()){
+            return response()->json('success', 200);
+        } else {
+            return response()->json('failed', 400);
+        }
     }
 }

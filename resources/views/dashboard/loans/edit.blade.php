@@ -27,7 +27,7 @@
                                         data-placeholder="Pilih Member">
                                         <option value=""></option>
                                         @foreach ($members as $item)
-                                            @if (old('member_id') == $item->id)
+                                            @if (old('member_id', $loan->member->id) == $item->id)
                                                 <option value="{{ $item->id }}" selected>{{ $item->member_id }} | {{ $item->name }}
                                                 </option>
                                             @else
@@ -46,7 +46,7 @@
                                         data-placeholder="Pilih Buku">
                                         <option value=""></option>
                                         @foreach ($books as $item)
-                                            @if (old('book_id') == $item->id)
+                                            @if (old('book_id', $loan->book->id) == $item->id)
                                                 <option value="{{ $item->id }}" selected>{{ $item->isbn_issn }} | {{ $item->publisher }} | {{ $item->title }}
                                                 </option>
                                             @else
@@ -63,7 +63,7 @@
                             <div class="mb-3">
                                 <label for="copy_code" class="form-label">Kode Eksemplar</label>
                                 <input type="text" class="form-control @error('copy_code') is-invalid @enderror"
-                                    id="copy_code" name="copy_code" value="{{ old('copy_code') }}" required>
+                                    id="copy_code" name="copy_code" value="{{ old('copy_code', $loan->copy_code) }}" required>
                                 @error('copy_code')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -74,7 +74,7 @@
                         <div class="col-lg-4">
                             <div class="mb-3">
                                 <label for="loan_date" class="form-label">Tanggal Meminjam</label>
-                                <input class="form-control" type="date" id="loan_date" name="loan_date" required>
+                                <input class="form-control" type="date" id="loan_date" name="loan_date" value="{{ old('loan_date', $loan->loan_date) }}" required>
                                 @error('loan_date')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -85,7 +85,7 @@
                         <div class="col-lg-4">
                             <div class="mb-3">
                                 <label for="date_returned" class="form-label">Tanggal Harus Kembali</label>
-                                <input class="form-control" type="date" id="date_returned" name="date_returned" required>
+                                <input class="form-control" type="date" id="date_returned" name="date_returned" value="{{ old('date_returned', $loan->date_returned) }}" required>
                                 @error('date_returned')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -99,7 +99,7 @@
                             <a href="{{ route('loan.index') }}" class="btn btn-success text-decoration-none mr-2">
                                 <span data-feather="arrow-left"></span> Kembali
                             </a>
-                            <button type="submit" class="btn btn-primary">Tambah Peminjaman</button>
+                            <button type="submit" class="btn btn-primary">Update Peminjaman</button>
                         </div>
                     </div>
                 </form>
