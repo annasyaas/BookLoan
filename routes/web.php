@@ -1,14 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\LoanController;
-use App\Models\User;
-use Illuminate\Auth\Events\Login;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MemberController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\RecommendationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,3 +39,5 @@ Route::resource('/user', UserController::class)->middleware('auth')->except('sho
 Route::resource('/loan', LoanController::class)->middleware('auth');
 Route::get('/getCopy/{id}', [LoanController::class, 'copy'])->middleware('auth');
 Route::post('/updateCopy', [LoanController::class, 'updateCopy'])->middleware('auth')->name('book.copy.update');
+
+Route::get('/recommendation/{id}', [RecommendationController::class, 'show'])->middleware('auth')->name('recommendation');

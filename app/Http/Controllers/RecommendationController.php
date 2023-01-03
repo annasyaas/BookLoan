@@ -2,84 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
 use App\Models\Recommendation;
+use App\Http\Controllers\SimilarityController;
+use App\Models\Loan;
+use App\Models\Similarity;
 use Illuminate\Http\Request;
 
 class RecommendationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Recommendation  $recommendation
      * @return \Illuminate\Http\Response
      */
-    public function show(Recommendation $recommendation)
+    public function show($id)
     {
-        //
-    }
+        $member = Member::with('loans')->find($id);
+        $sim = new SimilarityController;
+        $books = Loan::select('book_id')->distinct()->get();
+        $dataMatrix = $sim->matrix($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Recommendation  $recommendation
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Recommendation $recommendation)
-    {
-        //
-    }
+        if($member->loans->count() >= 3){
+             
+            return view('dashboard.recommendation.show', [
+                'dataMatrix' => $dataMatrix,
+                'books' => $books
+            ]);
+        }else{
+            dd('kurang dari 3 peminjaman');
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Recommendation  $recommendation
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Recommendation $recommendation)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Recommendation  $recommendation
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Recommendation $recommendation)
-    {
-        //
     }
 }

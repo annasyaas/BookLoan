@@ -7,5 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Recommendation extends Model
 {
-    use HasFactory;
+    public $timestamps = true;
+    protected $table = 'recommendations';
+    protected $fillable = [
+        'member_id',
+        'book_id',
+        'prediction'
+    ];
+
+    public function member(){
+        return $this->belongsTo(User::class, 'member_id');
+    }
+
+    public function book(){
+        return $this->belongsTo(Loan::class);
+    }
 }

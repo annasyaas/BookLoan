@@ -4,7 +4,7 @@
 @endpush
 @section('container')
     <div class="section">
-        <div class="section-header">
+        <div class="section-header text-center">
             <h1>Loan Page</h1>
         </div>
         <div class="section-body">
@@ -73,12 +73,8 @@
                                     <td class="text-center">
                                         <a href="{{ route('loan.edit', $loan->id) }}" class="btn btn-sm btn-warning"><i
                                                 class="fa fa-pencil-alt"></i></a>
-                                        <form action="{{ route('loan.destroy', $loan->id) }}" method="post"
-                                            class="d-inline">
-                                            @method('delete')
-                                            @csrf
-                                            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
-                                        </form>
+                                        <button class="btn btn-sm btn-danger button" data-id="{{ $loan->id }}"><i
+                                                class="fa fa-trash"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -92,9 +88,46 @@
 @push('js')
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#dataTable').DataTable();
+
+            $(document).on('click', '.button', function() {
+                var id = $(this).data('id');
+                var url = "/loan/"+id;
+
+                Swal.fire({
+                    title: 'Apakah anda yakin ingin menghapus?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Hapus',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            dataType: 'json',
+                            dataSrc: '',
+                            data: {
+                                id: id,
+                                _method: 'delete',
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function() {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Data Buku berhasil dihapus!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then(function(){
+                                    location.reload();
+                                });
+                            }
+                        });
+                    }
+                })
+            })
         })
 
         function statusFunc(obj, id, book) {
@@ -111,7 +144,7 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(data) {
-                        window.location.reload();   
+                        window.location.reload();
                     }
                 });
             } else {

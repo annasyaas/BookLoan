@@ -21,4 +21,12 @@ class Member extends Model
     public function loans(){
         return $this->hasMany(Loan::class);
     }
+
+    public function recommendations(){
+        return $this->hasMany(Recommendation::class);
+    }
+
+    public function similarities(){
+        return $this->hasMany(Similarity::class);
+    }
 }

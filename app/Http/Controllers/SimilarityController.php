@@ -2,84 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
+use App\Models\Loan;
+use App\Models\Member;
 use App\Models\Similarity;
 use Illuminate\Http\Request;
 
 class SimilarityController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+    public function matrix(){
+        $books = Book::all();
+        $members = Member::all();
+        $loans = Loan::all();
+        $matrix = [];
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+        foreach ($books as $key => $book) {
+            
+        }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        foreach ($loans as $loan) {
+            $user = $loan->member_id;
+            $book = $loan->book_id;
+            $rate = 1;
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Similarity  $similarity
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Similarity $similarity)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Similarity  $similarity
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Similarity $similarity)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Similarity  $similarity
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Similarity $similarity)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Similarity  $similarity
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Similarity $similarity)
-    {
-        //
+            $matrix[$user][$book] = $rate;
+        }
+        
+        return $matrix;
     }
 }

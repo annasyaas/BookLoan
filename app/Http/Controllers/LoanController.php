@@ -116,7 +116,11 @@ class LoanController extends Controller
      */
     public function destroy(Loan $loan)
     {
-        //
+        if($loan->delete()){
+            return response()->json('berhasil', 200);
+        }else{
+            return response()->json('gagal', 500);
+        }
     }
 
     public function copy($id)

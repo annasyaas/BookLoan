@@ -46,6 +46,7 @@
                                     <td>{{ $member->member_id }}</td>
                                     <td>{{ $member->name }}</td>
                                     <td class="text-center">
+                                        <a href="{{ route('recommendation', $member->id) }}" class='btn btn-sm btn-primary' data-toggle="tooltip" data-placement="top" title="Lihat Rekomendasi"><i class='fa fa-eye'></i></a>
                                         <a href="{{ route('member.edit', $member->id) }}" class="btn btn-sm btn-warning"><i
                                                 class="fa fa-pencil-alt"></i></a>
                                         <form action="{{ route('member.destroy', $member->id) }}" method="post"
@@ -70,6 +71,9 @@
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable();
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
         })
     </script>
 @endpush
