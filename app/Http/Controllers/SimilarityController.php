@@ -11,23 +11,29 @@ use Illuminate\Http\Request;
 class SimilarityController extends Controller
 {
     public function matrix(){
-        $books = Book::all();
-        $members = Member::all();
+        $members = Loan::select('member_id')->distinct()->get();
         $loans = Loan::all();
         $matrix = [];
 
-        foreach ($books as $key => $book) {
-            
-        }
-
-        foreach ($loans as $loan) {
-            $user = $loan->member_id;
-            $book = $loan->book_id;
-            $rate = 1;
-
-            $matrix[$user][$book] = $rate;
+        // pusingnya bukan main woy demi rumus ini :), berbagai cara ku coba TT
+        foreach ($members as $member) {
+            foreach ($loans as $loan) {
+                if($loan->member_id == $member->member_id){
+                    $val = 1;
+                } else {
+                    $val = 0;
+                }
+                // cek di peminjaman apakah id member dan id buku masih kosong 
+                if(empty($matrix[$member->member_id][$loan->book_id])){
+                    $matrix[$member->member_id][$loan->book_id] = $val;
+                }
+            }
         }
         
         return $matrix;
+    }
+
+    public function calculation(){
+
     }
 }

@@ -25,7 +25,6 @@ class RecommendationController extends Controller
         $dataMatrix = $sim->matrix($id);
 
         if($member->loans->count() >= 3){
-             
             return view('dashboard.recommendation.show', [
                 'dataMatrix' => $dataMatrix,
                 'books' => $books
