@@ -27,5 +27,15 @@
                 </div>
             </div>
         </div>
+        <h4 class="ml-3 mb-3">Book Similarity</h4>
+            <div>
+                
+            </div>
+        </div>
+        <h4 class="ml-3 mb-3">Member Similarity</h4>
+            <div>
+                
+            </div>
+        </div>
     </div>
 @endsection

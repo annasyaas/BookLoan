@@ -18,18 +18,10 @@ class RecommendationController extends Controller
     {
         $member = Member::with('loans')->find($id);
         $sim = new SimilarityController;
-        $books = Loan::select('book_id')->distinct()->get();
-        $dataMatrix = $sim->matrix($id);
-        
+        $dataMatrix = $sim->matrix();
+        dd($sim->bookSim());
         return view('dashboard.recommendation.show', [
-            'dataMatrix' => $dataMatrix,
-            'books' => $books
+            'dataMatrix' => $dataMatrix
         ]);
-
-        // if($member->loans->count() >= 3){
-        // }else{
-        //     dd('kurang dari 3 peminjaman');
-        // }
-
     }
 }

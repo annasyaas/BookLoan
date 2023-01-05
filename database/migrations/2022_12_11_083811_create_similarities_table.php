@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('book_2')->unsigned()->nullable(); 
             $table->bigInteger('member_1')->unsigned()->nullable(); 
             $table->bigInteger('member_2')->unsigned()->nullable(); 
-            $table->boolean('method'); //0=userbased,1=itembased
+            // $table->boolean('method'); //0=userbased,1=itembased
             $table->float('value'); 
             $table->timestamps();
             $table->foreign('book_1')->references('id')->on('books')->onDelete('cascade');
