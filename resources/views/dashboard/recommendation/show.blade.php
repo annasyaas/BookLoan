@@ -29,7 +29,11 @@
         </div>
         <h4 class="ml-3 mb-3">Book Similarity</h4>
             <div>
-                
+                <div class="table-responsive col-lg-12">
+                    <table class="table table-sm text-center" style="width: 100%" border="2">
+                        
+                    </table>
+                </div>
             </div>
         </div>
         <h4 class="ml-3 mb-3">Member Similarity</h4>

@@ -19,9 +19,13 @@ class RecommendationController extends Controller
         $member = Member::with('loans')->find($id);
         $sim = new SimilarityController;
         $dataMatrix = $sim->matrix();
-        dd($sim->bookSim());
+        $bookSim = $sim->bookSim();
+        $memberSim = $sim->memberSim();
+        
         return view('dashboard.recommendation.show', [
-            'dataMatrix' => $dataMatrix
+            'dataMatrix' => $dataMatrix,
+            'bookSim' => $bookSim,
+            'memberSim' => $memberSim
         ]);
     }
 }
