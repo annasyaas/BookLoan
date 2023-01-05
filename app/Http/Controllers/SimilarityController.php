@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Loan;
 use App\Models\Member;
+use App\Models\Similarity;
 
 class SimilarityController extends Controller
 {
@@ -63,6 +64,18 @@ class SimilarityController extends Controller
                 $sim[$book_1][$book_2] = round($value / (sqrt($sumBook[$book_1]) * sqrt($sumBook[$book_2])), 3);
             }
         }
+       
+        // simpan value similarity ke database
+        foreach ($sim as $book_id1 => $oppo_books) {
+            foreach ($oppo_books as $book_id2 => $value) {
+                Similarity::updateOrCreate([
+                    'book_1' => $book_id1,
+                    'book_2' => $book_id2,
+                    'value' => $value,
+                    'method' => 1
+                ]);
+            }
+        }
 
         return $sim;
     }
@@ -98,6 +111,18 @@ class SimilarityController extends Controller
         foreach ($suitMembers as $member_id => $oppo_members) {
             foreach ($oppo_members as $oppo_id => $value) {
                 $sim[$member_id][$oppo_id] = round($value / (sqrt($sumMember[$member_id]) * sqrt($sumMember[$oppo_id])), 3);
+            }
+        }
+
+        // simpan value similarity ke database
+        foreach ($sim as $member_id1 => $oppo_members) {
+            foreach ($oppo_members as $member_id2 => $value) {
+                Similarity::updateOrCreate([
+                    'member_1' => $member_id1,
+                    'member_2' => $member_id2,
+                    'value' => $value,
+                    'method' => 0
+                ]);
             }
         }
 

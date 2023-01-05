@@ -16,16 +16,24 @@ class RecommendationController extends Controller
      */
     public function show($id)
     {
-        $member = Member::with('loans')->find($id);
         $sim = new SimilarityController;
         $dataMatrix = $sim->matrix();
         $bookSim = $sim->bookSim();
         $memberSim = $sim->memberSim();
-        
+        $bookPred = $this->prediction();
+        $memberPred = $this->prediction();
+
         return view('dashboard.recommendation.show', [
             'dataMatrix' => $dataMatrix,
             'bookSim' => $bookSim,
-            'memberSim' => $memberSim
+            'memberSim' => $memberSim,
+            'bookPred' => $bookPred,
+            'memberPred' => $memberPred
         ]);
+    }
+
+    public function prediction()
+    {
+        
     }
 }

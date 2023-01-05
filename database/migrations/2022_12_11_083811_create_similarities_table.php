@@ -21,7 +21,7 @@ return new class extends Migration
             $table->bigInteger('member_1')->unsigned()->nullable(); 
             $table->bigInteger('member_2')->unsigned()->nullable(); 
             $table->boolean('method'); //0=userbased,1=itembased
-            $table->float('value'); 
+            $table->double('value'); 
             $table->timestamps();
             $table->foreign('book_1')->references('id')->on('books')->onDelete('cascade');
             $table->foreign('book_2')->references('id')->on('books')->onDelete('cascade');
