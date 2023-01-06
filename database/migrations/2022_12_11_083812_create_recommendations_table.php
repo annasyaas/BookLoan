@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('member_id')->unsigned();
             $table->bigInteger('book_id')->unsigned();
             $table->string('prediction');
+            $table->boolean('method'); // 0=userbased,1=itembased
             $table->timestamps();
             $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade');
             $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
