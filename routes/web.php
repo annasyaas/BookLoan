@@ -40,4 +40,4 @@ Route::resource('/loan', LoanController::class)->middleware('auth');
 Route::get('/getCopy/{id}', [LoanController::class, 'copy'])->middleware('auth');
 Route::post('/updateCopy', [LoanController::class, 'updateCopy'])->middleware('auth')->name('book.copy.update');
 
-Route::get('/recommendation/{id}', [RecommendationController::class, 'show'])->middleware('auth')->name('recommendation');
+Route::get('/recommendation', [RecommendationController::class, 'recommendation'])->middleware('auth')->name('recommendation');

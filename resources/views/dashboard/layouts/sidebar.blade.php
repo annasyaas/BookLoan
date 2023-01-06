@@ -9,6 +9,7 @@
             <li class="active"><a class="nav-link" href="{{ route('member.index') }}"><i class="fa fa-users"></i> <span>Member</span></a></li>
             <li class="active"><a class="nav-link" href="{{ route('loan.index') }}"><i class="fa fa-book-open"></i> <span>Peminjaman Buku</span></a></li>
             <li class="active"><a class="nav-link" href="{{ route('user.index') }}"><i class="fa fa-user-alt"></i> <span>User</span></a></li>
+            <li class="active"><a class="nav-link" href="{{ route('recommendation') }}"><i class="fa fa-thumbs-up"></i> <span>Rekomendasi</span></a></li>
         </ul>
     </aside>
 </div>

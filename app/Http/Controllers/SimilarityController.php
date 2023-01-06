@@ -72,7 +72,7 @@ class SimilarityController extends Controller
                     'book_1' => $book_id1,
                     'book_2' => $book_id2,
                     'value' => $value,
-                    'method' => 1
+                    'method' => 1 // 1 for item-based
                 ]);
             }
         }
@@ -121,7 +121,7 @@ class SimilarityController extends Controller
                     'member_1' => $member_id1,
                     'member_2' => $member_id2,
                     'value' => $value,
-                    'method' => 0
+                    'method' => 0 // 0 for user-based
                 ]);
             }
         }
