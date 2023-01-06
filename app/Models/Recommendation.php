@@ -12,6 +12,7 @@ class Recommendation extends Model
     protected $fillable = [
         'member_id',
         'book_id',
+        'method',
         'prediction'
     ];
 

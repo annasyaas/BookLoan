@@ -21,7 +21,7 @@
             <div>
                 <div class="table-responsive col-lg-12">
                     <a href="{{ route('book.create') }}" class="btn btn-primary mb-3">Create New</a>
-                    <table class="table table-sm" id="dataTable" style="width: 100%">
+                    <table class="table table-sm table-striped" id="dataTable" style="width: 100%">
                         <thead>
                             <tr>
                                 <th scope="col" width="8%">No</th>
@@ -53,9 +53,9 @@
                     { data: 'copy'},
                     { data: 'publisher'},
                     { data: null, render: function(dataField) {
-                        return "<button type='button' class='btn btn-sm btn-primary' data-toggle='modal' data-target='.bd-example-modal-lg'><i class='fa fa-eye'></i></button>" +
+                        return "<button type='button' class='btn btn-sm btn-primary mr-1' data-toggle='modal' data-target='.bd-example-modal-lg'><i class='fa fa-eye'></i></button>" +
                             "<a href='/book/" + dataField['id'] +
-                            "/edit' class='btn btn-sm btn-warning'> <i class='fa fa-pencil-alt'></i></a>" +
+                            "/edit' class='btn btn-sm btn-warning mr-1'> <i class='fa fa-pencil-alt'></i></a>" +
                             "<a href='javascript:void(0)' class='btn btn-sm btn-danger button' data-id=" +
                             dataField['id'] + ">" +
                             "<i class='fa fa-trash'></i></a>"

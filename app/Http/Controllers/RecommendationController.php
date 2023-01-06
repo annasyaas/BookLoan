@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Member;
 use App\Http\Controllers\SimilarityController;
 use App\Models\Loan;
+use App\Models\Recommendation;
 use App\Models\Similarity;
 
 class RecommendationController extends Controller
@@ -19,14 +19,10 @@ class RecommendationController extends Controller
     {
         $sim = new SimilarityController;
         $dataMatrix = $sim->matrix();
-        $bookSim = $sim->bookSim();
-        $memberSim = $sim->memberSim();
         $prediction = $this->prediction($dataMatrix);
 
         return view('dashboard.recommendation.show', [
             'dataMatrix' => $dataMatrix,
-            'bookSim' => $bookSim,
-            'memberSim' => $memberSim,
             'prediction' => $prediction
         ]);
     }
@@ -113,6 +109,18 @@ class RecommendationController extends Controller
         foreach ($sortPredictionUser as $member_id => $sortValue) {
             $topPredictionUser[$member_id] = array_slice($sortValue, 0, 5, true);
         }
+
+        // simpan nilai prediksi ke database
+        $saveItem = $this->savePrediction($topPredictionItem, 1);
+        $saveUser = $this->savePrediction($topPredictionUser, 0);
+
+        if($saveItem && $saveUser){
+            return [
+                'itemBased' => $topPredictionItem,
+                'userBased' => $topPredictionUser
+            ];
+        }
+
     }
     
     // mencari rating kosong dari tiap member
@@ -130,5 +138,24 @@ class RecommendationController extends Controller
         }
 
         return $emptyRatings;
+    }
+
+    public function savePrediction($prediction, $int)
+    {
+        foreach ($prediction as $member_id => $books_) {
+            foreach ($books_ as $book_id => $pred) {
+                $predictionDatas[] = [
+                    'member_id' => $member_id,
+                    'book_id' => $book_id,
+                    'prediction' => $pred,
+                    'method' => $int
+                ];
+            }
+        }
+        foreach ($predictionDatas as $datas) {
+            Recommendation::updateOrCreate($datas);
+        }
+
+        return true;
     }
 }

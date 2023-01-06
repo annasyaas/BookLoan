@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function __construct()
-    {
-        $this->model = Book::orderBy('id', 'ASC')->get();
-    }
+    // public function __construct()
+    // {
+    //     $this->model = Book::orderBy('id', 'ASC')->get();
+    // }
 
     /**
      * Display a listing of the resource.
@@ -107,7 +107,7 @@ class BookController extends Controller
     
     public function datas(){
 
-        $datas = $this->model;
+        $datas = Book::orderBy('id', 'ASC')->get();;
         $i = 1;
         foreach($datas as $data) {
             $data['number'] = $i++;

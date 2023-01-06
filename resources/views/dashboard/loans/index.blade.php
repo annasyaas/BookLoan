@@ -30,7 +30,7 @@
             <div>
                 <div class="table-responsive col-lg-12">
                     <a href="{{ route('loan.create') }}" class="btn btn-primary mb-3">Create New</a>
-                    <table class="table table-striped table-sm" id="dataTable">
+                    <table class="table table-sm table-striped" id="dataTable">
                         <thead>
                             <tr>
                                 <th scope="col" width="3%">No</th>
