@@ -77,7 +77,7 @@ class SimilarityController extends Controller
             }
         }
         
-        return response()->json($sim, 200);
+        return $sim;
     }
 
     // Similarity antar user
@@ -126,6 +126,14 @@ class SimilarityController extends Controller
             }
         }
 
-        return response()->json($sim, 200);
+        return $sim;
+    }
+
+    public function getSimilarity()
+    {
+        return response()->json([
+            'itemSim' => $this->bookSim(),
+            'memberSim' => $this->memberSim()
+        ], 200);
     }
 }

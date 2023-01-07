@@ -42,7 +42,5 @@ Route::get('/getCopy/{id}', [LoanController::class, 'copy'])->middleware('auth')
 Route::post('/updateCopy', [LoanController::class, 'updateCopy'])->middleware('auth')->name('book.copy.update');
 
 Route::get('/recommendation', [RecommendationController::class, 'recommendation'])->middleware('auth')->name('recommendation');
-Route::get('/getMemberSim', [SimilarityController::class, 'memberSim'])->middleware('auth')->name('getmember');
-Route::get('/getBookSim', [SimilarityController::class, 'bookSim'])->middleware('auth')->name('getbook');
-Route::get('/getMemberPred', [SimilarityController::class, 'memberSim'])->middleware('auth')->name('getmember');
-Route::get('/getBookPred', [SimilarityController::class, 'bookSim'])->middleware('auth')->name('getbook');
+Route::get('/getSimilarity', [SimilarityController::class, 'getSimilarity'])->middleware('auth')->name('getsimilarity');
+Route::get('/getPrediction', [RecommendationController::class, 'prediction'])->middleware('auth')->name('getprediction');

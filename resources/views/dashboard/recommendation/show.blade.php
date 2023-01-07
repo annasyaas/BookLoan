@@ -1,6 +1,7 @@
 @extends('dashboard.layouts.main')
 @push('css')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/loading.css') }}">
 @endpush
 @section('container')
     <div class="section">
@@ -36,6 +37,7 @@
                     <a href="javascript:void(0)" class="btn btn-primary" id="simBtn">Lihat Similarity Buku</a>
                 </div>
             </div>
+            <div class="lds-roller ml-auto mr-auto mt-5" id="loadsim"><div></div><div></div><div></div><div></div></div>
             <div class="row" id="similarity">
                 <div class="col-lg-6">
                     <h4 class="mb-3 mt-5">Book Similarity</h4>
@@ -71,6 +73,7 @@
                     <a href="javascript:void(0)" class="btn btn-primary" id="predBtn">Lihat Rekomendasi</a>
                 </div>
             </div>
+            <div class="lds-roller ml-auto mr-auto mt-5" id="loadpred"><div></div><div></div><div></div><div></div></div>
             <div class="row" id="prediction">
                 <div class="col-lg-6">
                     <h4 class="mb-3 mt-5">Item-Based Prediction</h4>
@@ -84,15 +87,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($prediction['itemBased'] as $member_id => $books)
-                                    @foreach ($books as $book_id => $valPrediction)
-                                        <tr>
-                                            <td>{{ $member_id }}</td>
-                                            <td>{{ $book_id }}</td>
-                                            <td>{{ $valPrediction}}</td>
-                                        </tr>
-                                    @endforeach
-                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -109,15 +103,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($prediction['userBased'] as $member_id => $books)
-                                    @foreach ($books as $book_id => $valPrediction)
-                                        <tr>
-                                            <td>{{ $member_id }}</td>
-                                            <td>{{ $book_id }}</td>
-                                            <td>{{ $valPrediction}}</td>
-                                        </tr>
-                                    @endforeach
-                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -129,64 +114,65 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            tablebookpred = $('#predTableBook').DataTable();
-            tablememberpred = $('#predTableMember').DataTable();
             $('#similarity').hide();
             $('#prediction').hide();
+            $('#predBtn').hide();
+            $('#loadsim').hide();
+            $('#loadpred').hide();
             
             $('#simBtn').click(function(){
+                $('#loadsim').show();
                 $.ajax({
                     type: 'GET',
-                    url: '{{ route("getbook") }}',
-                    success: function(dataB){
-                        $.each(dataB, function(book_1,books){
-                            $.each(books, function(book_2, value){
-                                tablebooksim = $('#simTableBook').DataTable();
-                                tablebooksim.row.add([book_1, book_2, value]).draw().node();
-                            })
+                    url: '{{ route("getsimilarity") }}',
+                    success: function(datas){
+                        $('#loadsim').hide();
+                        $.each(datas, function(method, methodValue){
+                            if(method == 'itemSim') {
+                                $.each(methodValue, function(book_1,books){
+                                    $.each(books, function(book_2, value){
+                                        tablebooksim = $('#simTableBook').DataTable();
+                                        tablebooksim.row.add([book_1, book_2, value]).draw().node();
+                                    })
+                                })
+                            } else if(method == 'memberSim') {
+                                $.each(methodValue, function(member_1,members){
+                                    $.each(members, function(member_2, value){
+                                        tablemembersim = $('#simTableMember').DataTable();
+                                        tablemembersim.row.add([member_1, member_2, value]).draw().node();
+                                    })
+                                })
+                            }
                         })
                     }
                 })
-                $.ajax({
-                    type: 'GET',
-                    url: '{{ route("getmember") }}',
-                    success: function(dataM){
-                        $.each(dataM, function(member_1,members){
-                            $.each(members, function(member_2, value){
-                                tablemembersim = $('#simTableMember').DataTable();
-                                tablemembersim.row.add([member_1, member_2, value]).draw().node();
-                            })
-                        })
-                    $('#similarity').show();
-                    }
-                })
+            $('#similarity').show();
             $(this).hide();
+            $('#predBtn').show();
             })
 
             $('#predBtn').click(function(){
+                $('#loadpred').show();
                 $.ajax({
                     type: 'GET',
-                    url: '{{ route("getbook") }}',
-                    success: function(dataB){
-                        $.each(dataB, function(book_1,books){
-                            $.each(books, function(book_2, value){
-                                tablebooksim = $('#simTableBook').DataTable();
-                                tablebooksim.row.add([book_1, book_2, value]).draw().node();
-                            })
+                    url: '{{ route("getprediction") }}',
+                    success: function(datas){
+                        $('#loadpred').hide();
+                        $.each(datas, function(method,methodvalue){
+                            if(method == 'itemBased') {
+                                $.each(methodvalue, function(index, dataB){
+                                    tablebookpred = $('#predTableBook').DataTable();
+                                    tablebookpred.row.add([dataB['member_id'], dataB['book_id'], dataB['prediction']]).draw().node();
+                                })
+                            } else if(method == 'userBased') {
+                                $.each(methodvalue, function(index, dataB){
+                                    tablememberpred = $('#predTableMember').DataTable();
+                                    tablememberpred.row.add([dataB['member_id'], dataB['book_id'], dataB['prediction']]).draw().node();
+                                })
+                                
+                            }
                         })
-                    }
-                })
-                $.ajax({
-                    type: 'GET',
-                    url: '{{ route("getmember") }}',
-                    success: function(dataM){
-                        $.each(dataM, function(member_1,members){
-                            $.each(members, function(member_2, value){
-                                tablemembersim = $('#simTableMember').DataTable();
-                                tablemembersim.row.add([member_1, member_2, value]).draw().node();
-                            })
-                        })
-                    $('#similarity').show();
+                    $('#prediction').show();
                     }
                 })
             $(this).hide();

@@ -19,23 +19,23 @@ class RecommendationController extends Controller
     {
         $sim = new SimilarityController;
         $dataMatrix = $sim->matrix();
-        $prediction = $this->prediction($dataMatrix);
-
+        
         return view('dashboard.recommendation.show', [
-            'dataMatrix' => $dataMatrix,
-            'prediction' => $prediction
+            'dataMatrix' => $dataMatrix
         ]);
     }
 
-    public function prediction($matrix)
+    public function prediction()
     {
+        $sim = new SimilarityController;
+        $matrix = $sim->matrix();
         $emptyRatings = $this->emptyRate($matrix);
         $bookSims = Similarity::select('book_1', 'book_2', 'value')->where('method', 1)->get();
         $memberSims = Similarity::select('member_1', 'member_2', 'value')->where('method', 0)->get();
         
         // mencari prediksi ITEM-BASED, dengan mencari nilai kemiripan tertinggi dari item tetangga terdekat
         foreach ($emptyRatings as $member_id => $books){
-            foreach ($books as $key => $book_id) {
+            foreach ($books as $book_id) {
                 foreach ($bookSims as $bookSim){
                     $book_1 = $bookSim->book_1;
                     $book_2 = $bookSim->book_2;
@@ -61,14 +61,12 @@ class RecommendationController extends Controller
         }
         // sort prediksi ambil 5 teratas
         foreach ($predictionItem as $member_id => $predValue) {
-            asort($predValue);
-            $reverse = array_reverse($predValue, true);
-            $sortPredictionItem[$member_id] = $reverse;
+            arsort($predValue);
+            $sortPredictionItem[$member_id] = $predValue;
         }
         foreach ($sortPredictionItem as $member_id => $sortValue) {
             $topPredictionItem[$member_id] = array_slice($sortValue, 0, 5, true);
         }
-
 
         // mencari prediksi USER-BASED, dengan mencari nilai kemiripan tertinggi dari user tetangga terdekat
         foreach ($matrix as $member_id => $books) {
@@ -103,8 +101,7 @@ class RecommendationController extends Controller
         // sort prediksi ambil 5 teratas
         foreach ($predictionUser as $member_id => $predValue) {
             asort($predValue);
-            $reverse = array_reverse($predValue, true);
-            $sortPredictionUser[$member_id] = $reverse;
+            $sortPredictionUser[$member_id] = $predValue;
         }
         foreach ($sortPredictionUser as $member_id => $sortValue) {
             $topPredictionUser[$member_id] = array_slice($sortValue, 0, 5, true);
@@ -113,12 +110,14 @@ class RecommendationController extends Controller
         // simpan nilai prediksi ke database
         $saveItem = $this->savePrediction($topPredictionItem, 1);
         $saveUser = $this->savePrediction($topPredictionUser, 0);
-
+        
         if($saveItem && $saveUser){
-            return [
-                'itemBased' => $topPredictionItem,
-                'userBased' => $topPredictionUser
+            $datas = [
+                'itemBased' => Recommendation::select('member_id', 'book_id', 'prediction')->where('method', 1)->get(),
+                'userBased' => Recommendation::select('member_id', 'book_id', 'prediction')->where('method', 0)->get()
             ];
+
+            return response()->json($datas, 200);
         }
 
     }
