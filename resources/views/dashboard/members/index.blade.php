@@ -36,6 +36,7 @@
                                 <th scope="col">No</th>
                                 <th scope="col">No. Member</th>
                                 <th scope="col">Nama</th>
+                                <th scope="col">Institusi</th>
                                 <th scope="col" class="text-center" width="20%">Aksi</th>
                             </tr>
                         </thead>
@@ -45,6 +46,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $member->member_id }}</td>
                                     <td>{{ $member->name }}</td>
+                                    <td>{{ $member->institution }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('member.edit', $member->id) }}" class="btn btn-sm btn-warning"><i
                                                 class="fa fa-pencil-alt"></i></a>

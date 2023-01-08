@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('member_id');
             $table->string('name');
+            $table->string('institution');
             $table->timestamps();
         });
     }

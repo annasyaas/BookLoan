@@ -11,7 +11,8 @@ class Member extends Model
     protected $table = 'members';
     protected $fillable = [
         'member_id',
-        'name'
+        'name',
+        'institution'
     ];
 
     public function user(){

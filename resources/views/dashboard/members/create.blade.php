@@ -22,12 +22,24 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-lg-8">
+                        <div class="col-lg-4">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nama Member</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
                                     name="name" value="{{ old('name') }}" required>
                                 @error('name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-3">
+                                <label for="institution" class="form-label">Institusi</label>
+                                <input type="text" class="form-control @error('institution') is-invalid @enderror" id="institution"
+                                    name="institution" value="{{ old('institution') }}" required>
+                                @error('institution')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
