@@ -25,10 +25,10 @@
                         <thead>
                             <tr>
                                 <th scope="col" width="8%">No</th>
-                                <th scope="col">Nomor Panggil</th>
+                                <th scope="col" width="8%">Nomor Panggil</th>
                                 <th scope="col" width="30%">Judul</th>
                                 <th scope="col">Salin</th>
-                                <th scope="col" width="10%">Penerbit</th>
+                                <th scope="col" width="15%">Penerbit</th>
                                 <th scope="col">Aksi</th>
                             </tr>
                         </thead>

@@ -44,3 +44,5 @@ Route::post('/updateCopy', [LoanController::class, 'updateCopy'])->middleware('a
 Route::get('/recommendation', [RecommendationController::class, 'recommendation'])->middleware('auth')->name('recommendation');
 Route::get('/getSimilarity', [SimilarityController::class, 'getSimilarity'])->middleware('auth')->name('getsimilarity');
 Route::get('/getPrediction', [RecommendationController::class, 'prediction'])->middleware('auth')->name('getprediction');
+
+Route::get('/maemape', [MaeMapeController::class, 'getNilai'])->middleware('auth')->name('getmaemape');

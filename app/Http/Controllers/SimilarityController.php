@@ -2,16 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
 use App\Models\Loan;
-use App\Models\Member;
 use App\Models\Similarity;
+use Illuminate\Support\Facades\DB;
 
 class SimilarityController extends Controller
 {
+    protected $dataMatrix;
+
+    public function __construct()
+    {
+        $this->dataMatrix = $this->matrix();
+    }
+
     public function matrix(){
-        $members = Loan::select('member_id')->distinct()->get();
-        $loans = Loan::orderBy('book_id', 'asc')->get();
+        // ambil member yang telah meminjam lebih dari sama dengan 3
+        $members = Loan::select('member_id')->whereIn('member_id', function($query){
+            $query->select('member_id')->from('loans')
+            ->groupBy('member_id')
+            ->having(DB::raw('count(*)'), '>=', '5')->get();
+        })->distinct()->get();
+        $member_id = $members->pluck('member_id')->toArray();
+        $loans = Loan::whereIn('member_id', $member_id)->orderBy('book_id', 'asc')->get();
         $matrix = [];
 
         // pusingnya bukan main woy demi rumus ini :), i've tried diff ways TT
@@ -31,109 +43,92 @@ class SimilarityController extends Controller
         return $matrix;
     }
 
-    // Similarity antar item
-    public function bookSim(){
-        $dataMatrix = $this->matrix();
-        $books = Book::all();
-        $members = Loan::select('member_id')->distinct()->get();
+    // Menghitung similarity
+    public function getSimilarity(){
+        set_time_limit(3600);
+        $dataMatrix = $this->dataMatrix;
+        $members = Loan::select('member_id')->whereIn('member_id', function($query){
+            $query->select('member_id')->from('loans')
+            ->groupBy('member_id')
+            ->having(DB::raw('count(*)'), '>=', '5')->get();
+        })->distinct()->orderBy('member_id', 'asc')->pluck('member_id');
+        $books = Loan::select('book_id')->whereIn('member_id', function($query){
+            $query->select('member_id')->from('loans')
+            ->groupBy('member_id')
+            ->having(DB::raw('count(*)'), '>=', '5')->get();
+        })->distinct()->orderBy('book_id', 'asc')->pluck('book_id');
         $suitBooks = [];
-        $sim = [];
-        $sum = 0;
+        $suitMembers = [];
+        $sim_book = [];
+        $sim_member = [];
+        $sum_book = count($books);
+        $sum_member = count($members);
         
+        /*********************************************  ITEM-BASED  **************************************************/
         // hitung total masing-masing buku telah dipinjam
         foreach ($books as $book) {
-            $sumBook[$book->id] = Loan::where('book_id', $book->id)->get()->count();
+            $sumBook[$book] = Loan::where('book_id', $book)->get()->count();
         }
-
         // hitung total peminjaman antar buku pada member yang sama
-        foreach ($books as $key => $book) {
-            for($i = $key+1; $i < count($books); $i++){
+        foreach ($books as $key => $book) { // buku pertama
+            for($i = $key+1; $i < $sum_book; $i++){ // buku kedua / pembanding
+                $sumu = 0;
                 foreach ($members as $member) {
-                    $memberID = $member->member_id;
-                    if($dataMatrix[$memberID][$book->id] == 1 && $dataMatrix[$memberID][$books[$i]->id] == 1){
-                        $suitBooks[$book->id][$books[$i]->id] = ++ $sum;
+                    if($dataMatrix[$member][$book] == 1 && $dataMatrix[$member][$books[$i]] == 1){
+                        $suitBooks[$book][$books[$i]] = ++$sumu;
                     } 
                 }
-                $sum = 0;
             }
         }
-
-        // hitung similarity antar buku
+        // hitung similarity antar buku dan simpan kedalam database
         foreach ($suitBooks as $book_1 => $oppo_books) {
             foreach ($oppo_books as $book_2 => $value) {
-                $sim[$book_1][$book_2] = round($value / (sqrt($sumBook[$book_1]) * sqrt($sumBook[$book_2])), 3);
-            }
-        }
-       
-        // simpan value similarity ke database
-        foreach ($sim as $book_id1 => $oppo_books) {
-            foreach ($oppo_books as $book_id2 => $value) {
+                $value_book = round($value / (sqrt($sumBook[$book_1]) * sqrt($sumBook[$book_2])), 3);
+                $sim_book[$book_1][$book_2] = $value_book;
                 Similarity::updateOrCreate([
-                    'book_1' => $book_id1,
-                    'book_2' => $book_id2,
-                    'value' => $value,
+                    'book_1' => $book_1,
+                    'book_2' => $book_2,
+                    'value' => $value_book,
                     'method' => 1 // 1 for item-based
                 ]);
             }
         }
-        
-        return $sim;
-    }
 
-    // Similarity antar user
-    public function memberSim(){
-        $dataMatrix = $this->matrix();
-        $members = Member::all();
-        $books = Loan::select('book_id')->distinct()->get();
-        $suitMembers = [];
-        $sim = [];
-        $sum = 0;
+        /*********************************************  USER-BASED  **************************************************/
         
         // hitung total masing-masing member telah meminjam
         foreach ($members as $member) {
-            $sumMember[$member->id] = Loan::where('member_id', $member->id)->get()->count();
+            $sumMember[$member] = Loan::where('member_id', $member)->get()->count();
         }
 
         // hitung total peminjaman buku antar member dengan buku yang sama
         foreach ($members as $key => $member) {
-            for($i = $key+1; $i < count($members); $i++){
+            for($i = $key+1; $i < $sum_member; $i++){
+                $sum = 0;
                 foreach ($books as $book) {
-                    $bookID = $book->book_id;
-                    if($dataMatrix[$member->id][$bookID] == 1 && $dataMatrix[$members[$i]->id][$bookID] == 1){
-                        $suitMembers[$member->id][$members[$i]->id] = ++ $sum;
+                    if($dataMatrix[$member][$book] == 1 && $dataMatrix[$members[$i]][$book] == 1){
+                        $suitMembers[$member][$members[$i]] = ++$sum;
                     }
                 }
-                $sum = 0;
             }
         }
-
         // hitung similarity antar member
-        foreach ($suitMembers as $member_id => $oppo_members) {
-            foreach ($oppo_members as $oppo_id => $value) {
-                $sim[$member_id][$oppo_id] = round($value / (sqrt($sumMember[$member_id]) * sqrt($sumMember[$oppo_id])), 3);
-            }
-        }
-
-        // simpan value similarity ke database
-        foreach ($sim as $member_id1 => $oppo_members) {
-            foreach ($oppo_members as $member_id2 => $value) {
+        foreach ($suitMembers as $member_1 => $oppo_members) {
+            foreach ($oppo_members as $member_2 => $value) {
+                $value_member = round($value / (sqrt($sumMember[$member_1]) * sqrt($sumMember[$member_2])), 3);
+                $sim_member[$member_1][$member_2] = $value_member;
                 Similarity::updateOrCreate([
-                    'member_1' => $member_id1,
-                    'member_2' => $member_id2,
-                    'value' => $value,
+                    'member_1' => $member_1,
+                    'member_2' => $member_2,
+                    'value' => $value_member,
                     'method' => 0 // 0 for user-based
                 ]);
             }
         }
-
-        return $sim;
-    }
-
-    public function getSimilarity()
-    {
+        
         return response()->json([
-            'itemSim' => $this->bookSim(),
-            'memberSim' => $this->memberSim()
+            'itemSim' => $sim_book,
+            'memberSim' => $sim_member
         ], 200);
     }
 }

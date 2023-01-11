@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h4 class="mb-3 ">Matrix</h4>
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="overflow-x: scroll; overflow-y: scroll; height: 500px">
                         <table class="table table-sm text-center" style="width: 100%" border="1">
                             <tr>
                                 <td>#</td>
@@ -37,7 +37,12 @@
                     <a href="javascript:void(0)" class="btn btn-primary" id="simBtn">Lihat Similarity Buku</a>
                 </div>
             </div>
-            <div class="lds-roller ml-auto mr-auto mt-5" id="loadsim"><div></div><div></div><div></div><div></div></div>
+            <div class="lds-roller ml-auto mr-auto mt-5" id="loadsim">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
             <div class="row" id="similarity">
                 <div class="col-lg-6">
                     <h4 class="mb-3 mt-5">Book Similarity</h4>
@@ -73,7 +78,12 @@
                     <a href="javascript:void(0)" class="btn btn-primary" id="predBtn">Lihat Rekomendasi</a>
                 </div>
             </div>
-            <div class="lds-roller ml-auto mr-auto mt-5" id="loadpred"><div></div><div></div><div></div><div></div></div>
+            <div class="lds-roller ml-auto mr-auto mt-5" id="loadpred">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
             <div class="row" id="prediction">
                 <div class="col-lg-6">
                     <h4 class="mb-3 mt-5">Item-Based Prediction</h4>
@@ -108,6 +118,11 @@
                     </div>
                 </div>
             </div>
+            <div class="row justify-content-center mt-5">
+                <div class="col-lg-2 text-center">
+                    <a href="{{ route('getmaemape') }}" class="btn btn-primary" id="btnMae">Lihat Mae & Mape</a>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
@@ -119,63 +134,85 @@
             $('#predBtn').hide();
             $('#loadsim').hide();
             $('#loadpred').hide();
-            
-            $('#simBtn').click(function(){
+
+            $('#simBtn').click(function() {
                 $('#loadsim').show();
                 $.ajax({
                     type: 'GET',
-                    url: '{{ route("getsimilarity") }}',
-                    success: function(datas){
+                    url: '{{ route('getsimilarity') }}',
+                    success: function(datas) {
                         $('#loadsim').hide();
-                        $.each(datas, function(method, methodValue){
-                            if(method == 'itemSim') {
-                                $.each(methodValue, function(book_1,books){
-                                    $.each(books, function(book_2, value){
-                                        tablebooksim = $('#simTableBook').DataTable();
-                                        tablebooksim.row.add([book_1, book_2, value]).draw().node();
+                        $.each(datas, function(method, methodValue) {
+                            if (method == 'itemSim') {
+                                $.each(methodValue, function(book_1, books) {
+                                    $.each(books, function(book_2, value) {
+                                        tablebooksim = $(
+                                                '#simTableBook')
+                                            .DataTable();
+                                        tablebooksim.row.add([book_1,
+                                            book_2, value
+                                        ]).draw().node();
                                     })
                                 })
-                            } else if(method == 'memberSim') {
-                                $.each(methodValue, function(member_1,members){
-                                    $.each(members, function(member_2, value){
-                                        tablemembersim = $('#simTableMember').DataTable();
-                                        tablemembersim.row.add([member_1, member_2, value]).draw().node();
+                            } else if (method == 'memberSim') {
+                                $.each(methodValue, function(member_1, members) {
+                                    $.each(members, function(member_2, value) {
+                                        tablemembersim = $(
+                                                '#simTableMember')
+                                            .DataTable();
+                                        tablemembersim.row.add([
+                                            member_1, member_2,
+                                            value
+                                        ]).draw().node();
                                     })
                                 })
                             }
                         })
                     }
                 })
-            $('#similarity').show();
-            $(this).hide();
-            $('#predBtn').show();
+                .done(function(response){
+                    $('#simBtn').hide();
+                    $('#similarity').show();
+                    $('#predBtn').show();
+                });
             })
 
-            $('#predBtn').click(function(){
+            $('#predBtn').click(function() {
                 $('#loadpred').show();
                 $.ajax({
                     type: 'GET',
-                    url: '{{ route("getprediction") }}',
-                    success: function(datas){
+                    url: '{{ route('getprediction') }}',
+                    success: function(datas) {
                         $('#loadpred').hide();
-                        $.each(datas, function(method,methodvalue){
-                            if(method == 'itemBased') {
-                                $.each(methodvalue, function(index, dataB){
-                                    tablebookpred = $('#predTableBook').DataTable();
-                                    tablebookpred.row.add([dataB['member_id'], dataB['book_id'], dataB['prediction']]).draw().node();
+                        $.each(datas, function(method, methodvalue) {
+                            if (method == 'itemBased') {
+                                $.each(methodvalue, function(index, dataB) {
+                                    tablebookpred = $('#predTableBook')
+                                        .DataTable();
+                                    tablebookpred.row.add([dataB['member_id'],
+                                        dataB['book_id'], dataB[
+                                            'prediction']
+                                    ]).draw().node();
                                 })
-                            } else if(method == 'userBased') {
-                                $.each(methodvalue, function(index, dataB){
-                                    tablememberpred = $('#predTableMember').DataTable();
-                                    tablememberpred.row.add([dataB['member_id'], dataB['book_id'], dataB['prediction']]).draw().node();
+                            } else if (method == 'userBased') {
+                                $.each(methodvalue, function(index, dataB) {
+                                    tablememberpred = $('#predTableMember')
+                                        .DataTable();
+                                    tablememberpred.row.add([dataB['member_id'],
+                                        dataB['book_id'], dataB[
+                                            'prediction']
+                                    ]).draw().node();
                                 })
-                                
+
                             }
                         })
-                    $('#prediction').show();
                     }
                 })
-            $(this).hide();
+                .done(function(response){
+                    $('#prediction').show();
+                    $('#predBtn').hide();
+                    $('#btnMae').show();
+                })
             })
         })
     </script>
