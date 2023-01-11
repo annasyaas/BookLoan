@@ -8,6 +8,6 @@ class MaeMapeController extends Controller
 {
     public function getNilai()
     {
-        
+        return view('dashboard.maemape.show');
     }
 }

@@ -28,7 +28,7 @@
                 </div>
             @endif
             <div>
-                <div class="table-responsive col-lg-8">
+                <div class="table-responsive col-lg-12">
                     <a href="{{ route('member.create') }}" class="btn btn-primary mb-3">Create New</a>
                     <table class="table table-striped table-sm" id="dataTable">
                         <thead>
@@ -48,6 +48,8 @@
                                     <td>{{ $member->name }}</td>
                                     <td>{{ $member->institution }}</td>
                                     <td class="text-center">
+                                        <a href="{{ route('member.show', $member->id) }}" class="btn btn-sm btn-primary"><i
+                                            class="fa fa-eye"></i></a>
                                         <a href="{{ route('member.edit', $member->id) }}" class="btn btn-sm btn-warning"><i
                                                 class="fa fa-pencil-alt"></i></a>
                                         <form action="{{ route('member.destroy', $member->id) }}" method="post"

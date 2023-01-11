@@ -134,9 +134,11 @@
             $('#predBtn').hide();
             $('#loadsim').hide();
             $('#loadpred').hide();
+            $('#btnMae').hide();
 
             $('#simBtn').click(function() {
                 $('#loadsim').show();
+                $('#simBtn').hide();
                 $.ajax({
                     type: 'GET',
                     url: '{{ route('getsimilarity') }}',
@@ -171,7 +173,6 @@
                     }
                 })
                 .done(function(response){
-                    $('#simBtn').hide();
                     $('#similarity').show();
                     $('#predBtn').show();
                 });
@@ -179,6 +180,7 @@
 
             $('#predBtn').click(function() {
                 $('#loadpred').show();
+                $('#predBtn').hide();
                 $.ajax({
                     type: 'GET',
                     url: '{{ route('getprediction') }}',
@@ -210,7 +212,6 @@
                 })
                 .done(function(response){
                     $('#prediction').show();
-                    $('#predBtn').hide();
                     $('#btnMae').show();
                 })
             })

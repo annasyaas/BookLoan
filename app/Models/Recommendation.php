@@ -21,6 +21,6 @@ class Recommendation extends Model
     }
 
     public function book(){
-        return $this->belongsTo(Loan::class);
+        return $this->belongsTo(Book::class, 'book_id');
     }
 }

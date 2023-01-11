@@ -6,8 +6,9 @@ use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MemberController;
-use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\MaeMapeController;
 use App\Http\Controllers\SimilarityController;
+use App\Http\Controllers\RecommendationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +34,7 @@ Route::delete('/bookDelete', [BookController::class, 'deleteData'])->middleware(
 Route::resource('/book', BookController::class)->middleware('auth')->except('destroy');
 Route::get('/getDatas', [BookController::class, 'datas'])->middleware('auth');
 
-Route::resource('/member', MemberController::class)->middleware('auth')->except('show');
+Route::resource('/member', MemberController::class)->middleware('auth');
 
 Route::resource('/user', UserController::class)->middleware('auth')->except('show');
 
@@ -42,7 +43,6 @@ Route::get('/getCopy/{id}', [LoanController::class, 'copy'])->middleware('auth')
 Route::post('/updateCopy', [LoanController::class, 'updateCopy'])->middleware('auth')->name('book.copy.update');
 
 Route::get('/recommendation', [RecommendationController::class, 'recommendation'])->middleware('auth')->name('recommendation');
-Route::get('/getSimilarity', [SimilarityController::class, 'getSimilarity'])->middleware('auth')->name('getsimilarity');
-Route::get('/getPrediction', [RecommendationController::class, 'prediction'])->middleware('auth')->name('getprediction');
-
-Route::get('/maemape', [MaeMapeController::class, 'getNilai'])->middleware('auth')->name('getmaemape');
+Route::get('recommendation/getSimilarity', [SimilarityController::class, 'getSimilarity'])->middleware('auth')->name('getsimilarity');
+Route::get('recommendation/getPrediction', [RecommendationController::class, 'prediction'])->middleware('auth')->name('getprediction');
+Route::get('recommendation/maemape', [MaeMapeController::class, 'getNilai'])->middleware('auth')->name('getmaemape');

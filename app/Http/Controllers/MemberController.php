@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MemberRequest;
 use App\Models\Member;
+use App\Models\Recommendation;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -54,7 +55,18 @@ class MemberController extends Controller
      */
     public function show(Member $member)
     {
-        //
+        $rec = Recommendation::with('book')->where('member_id', 15)->get();
+
+        if($rec->isNotEmpty()) {
+            $items = $rec->where('method', 1);
+            $users = $rec->where('method', 0);
+            return view('dashboard.members.show', [
+                'items' => $items,
+                'users' => $users
+            ]);
+        } else {
+            return redirect()->route('member.index')->with('failed', 'Member belum meminjam minimal 5 buku.');
+        }
     }
 
     /**
