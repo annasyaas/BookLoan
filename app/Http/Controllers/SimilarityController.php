@@ -44,19 +44,14 @@ class SimilarityController extends Controller
     }
 
     // Menghitung similarity
-    public function getSimilarity(){
+    public function similarity($dataMatrix){
         set_time_limit(3600);
-        $dataMatrix = $this->dataMatrix;
-        $members = Loan::select('member_id')->whereIn('member_id', function($query){
-            $query->select('member_id')->from('loans')
-            ->groupBy('member_id')
-            ->having(DB::raw('count(*)'), '>=', '5')->get();
-        })->distinct()->orderBy('member_id', 'asc')->pluck('member_id');
-        $books = Loan::select('book_id')->whereIn('member_id', function($query){
-            $query->select('member_id')->from('loans')
-            ->groupBy('member_id')
-            ->having(DB::raw('count(*)'), '>=', '5')->get();
-        })->distinct()->orderBy('book_id', 'asc')->pluck('book_id');
+        foreach ($dataMatrix as $member_id => $book) {
+            $members[] = $member_id;
+        }
+        foreach (array_values($dataMatrix)[0] as $book_id => $value) {
+            $books[] = $book_id;
+        }
         $suitBooks = [];
         $suitMembers = [];
         $sim_book = [];
@@ -85,12 +80,6 @@ class SimilarityController extends Controller
             foreach ($oppo_books as $book_2 => $value) {
                 $value_book = round($value / (sqrt($sumBook[$book_1]) * sqrt($sumBook[$book_2])), 3);
                 $sim_book[$book_1][$book_2] = $value_book;
-                Similarity::updateOrCreate([
-                    'book_1' => $book_1,
-                    'book_2' => $book_2,
-                    'value' => $value_book,
-                    'method' => 1 // 1 for item-based
-                ]);
             }
         }
 
@@ -117,6 +106,32 @@ class SimilarityController extends Controller
             foreach ($oppo_members as $member_2 => $value) {
                 $value_member = round($value / (sqrt($sumMember[$member_1]) * sqrt($sumMember[$member_2])), 3);
                 $sim_member[$member_1][$member_2] = $value_member;
+            }
+        }
+        
+        return [
+            'itemSim' => $sim_book,
+            'memberSim' => $sim_member
+        ];
+    }
+
+    public function getSimilarity()
+    {
+        $matrix = $this->dataMatrix;
+        $datas = $this->similarity($matrix);
+
+        foreach ($datas['itemSim'] as $book_1 => $books) {
+            foreach ($books as $book_2 => $value_book) {
+                Similarity::updateOrCreate([
+                    'book_1' => $book_1,
+                    'book_2' => $book_2,
+                    'value' => $value_book,
+                    'method' => 1 // 1 for item-based
+                ]);
+            }
+        }
+        foreach ($datas['memberSim'] as $member_1 => $members) {
+            foreach ($members as $member_2 => $value_member) {
                 Similarity::updateOrCreate([
                     'member_1' => $member_1,
                     'member_2' => $member_2,
@@ -125,10 +140,6 @@ class SimilarityController extends Controller
                 ]);
             }
         }
-        
-        return response()->json([
-            'itemSim' => $sim_book,
-            'memberSim' => $sim_member
-        ], 200);
+        return response()->json($datas, 200);
     }
 }

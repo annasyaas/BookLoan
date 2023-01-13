@@ -128,13 +128,13 @@
 @endsection
 @push('js')
     <script>
+        $('#similarity').hide();
+        $('#prediction').hide();
+        $('#predBtn').hide();
+        $('#loadsim').hide();
+        $('#loadpred').hide();
+        $('#btnMae').hide();
         $(document).ready(function() {
-            $('#similarity').hide();
-            $('#prediction').hide();
-            $('#predBtn').hide();
-            $('#loadsim').hide();
-            $('#loadpred').hide();
-            $('#btnMae').hide();
 
             $('#simBtn').click(function() {
                 $('#loadsim').show();

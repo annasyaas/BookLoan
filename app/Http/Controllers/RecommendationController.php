@@ -25,15 +25,10 @@ class RecommendationController extends Controller
         ]);
     }
 
-    public function prediction()
+    public function prediction($matrix, $bookSims, $memberSims)
     {
-        try{
-        set_time_limit(3600);
-        $sim = new SimilarityController;
-        $matrix = $sim->matrix();
-        $bookSims = Similarity::select('book_1', 'book_2', 'value')->where('method', 1)->get();
-        $memberSims = Similarity::select('member_1', 'member_2', 'value')->where('method', 0)->get();
-        
+        set_time_limit(3600); 
+
         /************************************************** ITEM-BASED  ***************************************************/
         // ambil data matrix yang bernilai 1 (meminjam)
         foreach ($matrix as $member_id => $books) {
@@ -48,13 +43,15 @@ class RecommendationController extends Controller
             foreach($books as $book_id => $value) {
                 if($value == 0){
                     foreach ($bookSims as $bookSim) {
-                        $book_1 = $bookSim->book_1;
-                        $book_2 = $bookSim->book_2;
-                        foreach ($matrix_1[$member_id] as $book_id_2) {
-                            if($book_1 == $book_id && $book_2 == $book_id_2){
-                                $suitBooks[$member_id][$book_1][$book_2] = $bookSim->value;
-                            } elseif($book_1 == $book_id_2 && $book_2 == $book_id) {
-                                $suitBooks[$member_id][$book_2][$book_1] = $bookSim->value;
+                        $book_1 = $bookSim['book_1'];
+                        $book_2 = $bookSim['book_2'];
+                        if(isset($matrix_1[$member_id])){
+                            foreach ($matrix_1[$member_id] as $book_id_2) {
+                                if($book_1 == $book_id && $book_2 == $book_id_2){
+                                    $suitBooks[$member_id][$book_1][$book_2] = $bookSim['value'];
+                                } elseif($book_1 == $book_id_2 && $book_2 == $book_id) {
+                                    $suitBooks[$member_id][$book_2][$book_1] = $bookSim['value'];
+                                }
                             }
                         }
                     }
@@ -81,7 +78,7 @@ class RecommendationController extends Controller
         // mencari prediksi USER-BASED, dengan mencari nilai kemiripan tertinggi dari user tetangga terdekat
         foreach ($matrix as $member_id => $books) {
             foreach ($books as $book_id => $value) {
-                if($value == 1){
+                if($value == 1) {
                     $matrixUser[$book_id][] = $member_id;
                 }
             }
@@ -90,14 +87,16 @@ class RecommendationController extends Controller
             foreach ($books as $book_id => $value) {
                 if($value == 0) {
                     foreach ($memberSims as $memberSim){
-                        $member_1 = $memberSim->member_1;
-                        $member_2 = $memberSim->member_2;
+                        $member_1 = $memberSim['member_1'];
+                        $member_2 = $memberSim['member_2'];
                         // mencari nilai tertinggi kecuali item user kosong
-                        foreach ($matrixUser[$book_id] as $matrix_user) {
-                            if($member_1 == $member_id && $member_2 == $matrix_user){
-                                $suitMembers[$member_id][$book_id][$member_2] = $memberSim->value;
-                            }elseif($member_2 == $member_id && $member_1 == $matrix_user){
-                                $suitMembers[$member_id][$book_id][$member_1] = $memberSim->value;
+                        if(isset($matrixUser[$book_id])) {
+                            foreach ($matrixUser[$book_id] as $member) {
+                                if($member_1 == $member_id && $member_2 == $member){
+                                    $suitMembers[$member_id][$book_id][$member_2] = $memberSim['value'];
+                                }elseif($member_2 == $member_id && $member_1 == $member){
+                                    $suitMembers[$member_id][$book_id][$member_1] = $memberSim['value'];
+                                }
                             }
                         }
                     }
@@ -118,9 +117,36 @@ class RecommendationController extends Controller
             $topPredictionUser[$member_id] = array_slice($predValue, 0, 5, true);
         }
 
+        return [
+            'itemPrediction' => $topPredictionItem,
+            'userPrediction' => $topPredictionUser
+        ];
+    }
+
+    public function getPrediction()
+    {
+        $sim = new SimilarityController;
+        $matrix = $sim->matrix();
+        $bookSims = Similarity::select('book_1', 'book_2', 'value')->where('method', 1)->get();
+        $memberSims = Similarity::select('member_1', 'member_2', 'value')->where('method', 0)->get();
+        foreach ($bookSims as $book) {
+            $books[] = [
+                    'book_1' => $book->book_1,
+                    'book_2' => $book->book_2,
+                    'value' => $book->value
+            ];
+        }
+        foreach ($memberSims as $member) {
+            $members[] = [
+                'member_1' => $member->member_1,
+                'member_2' => $member->member_2,
+                'value' => $member->value
+            ];
+        }
+        $datas = $this->prediction($matrix, $books, $members);
         // simpan nilai prediksi ke database
-        $saveItem = $this->savePrediction($topPredictionItem, 1);
-        $saveUser = $this->savePrediction($topPredictionUser, 0);
+        $saveItem = $this->savePrediction($datas['itemPrediction'], 1);
+        $saveUser = $this->savePrediction($datas['userPrediction'], 0);
     
         if($saveItem && $saveUser){
             $datas = [
@@ -128,9 +154,6 @@ class RecommendationController extends Controller
                 'userBased' => Recommendation::select('member_id', 'book_id', 'prediction')->where('method', 0)->get()
             ];
             return response()->json($datas, 200);
-        }
-        }catch(\Exception $error){
-            dd($error);
         }
     }
 

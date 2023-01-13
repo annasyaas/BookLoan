@@ -43,6 +43,8 @@ Route::get('/getCopy/{id}', [LoanController::class, 'copy'])->middleware('auth')
 Route::post('/updateCopy', [LoanController::class, 'updateCopy'])->middleware('auth')->name('book.copy.update');
 
 Route::get('/recommendation', [RecommendationController::class, 'recommendation'])->middleware('auth')->name('recommendation');
-Route::get('recommendation/getSimilarity', [SimilarityController::class, 'getSimilarity'])->middleware('auth')->name('getsimilarity');
-Route::get('recommendation/getPrediction', [RecommendationController::class, 'prediction'])->middleware('auth')->name('getprediction');
-Route::get('recommendation/maemape', [MaeMapeController::class, 'getNilai'])->middleware('auth')->name('getmaemape');
+Route::get('/recommendation/getSimilarity', [SimilarityController::class, 'getSimilarity'])->middleware('auth')->name('getsimilarity');
+Route::get('/recommendation/getPrediction', [RecommendationController::class, 'getPrediction'])->middleware('auth')->name('getprediction');
+
+Route::get('/recommendation/maemape', [MaeMapeController::class, 'getMaeMape'])->middleware('auth')->name('getmaemape');
+Route::get('/recommendation/getMatrix/{rate}', [MaeMapeController::class, 'matrix'])->middleware('auth');
