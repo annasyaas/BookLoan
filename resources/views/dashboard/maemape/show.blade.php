@@ -4,233 +4,180 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/css/loading.css') }}">
 @endpush
 @section('container')
-<div class="section">
-    <div class="section-header">
-        <h1>Comparison Page</h1>
-    </div>
-    <div class="section-body">
-        <div class="row justify-content-center mt-5">
-            <div class="col-lg-2 text-center">
-                <a href="javascript:void(0)" class="btn btn-primary" id="empty10">Lihat Pengosongan Rating 10%</a>
-            </div>
+    <div class="section">
+        <div class="section-header">
+            <h1>Comparison Page</h1>
         </div>
-        <div class="lds-roller ml-auto mr-auto mt-5" id="load10">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-        <div class="row" id="table10">
-            <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4>Matrix Pengosongan Rating 10%</h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <h4 class="mb-3 mt-5">Item-Based Prediction</h4>
-                        <div class="table-responsive text-center">
-                            <table class="table table-sm table-striped" id="predTableBook10" style="width: 100%">
-                                <thead>
-                                    <tr>
-                                        <td>ID Member</td>
-                                        <td>ID Buku</td>
-                                        <td>Nilai Prediksi</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <h4 class="mb-3 mt-5">User-Based Prediction</h4>
-                        <div class="table-responsive text-center">
-                            <table class="table table-sm table-striped" id="predTableMember10" style="width: 100%">
-                                <thead>
-                                    <tr>
-                                        <td>ID Member</td>
-                                        <td>ID Buku</td>
-                                        <td>Nilai Prediksi</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
+        <div class="section-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4 class="mb-3 ">Matrix</h4>
+                    <div class="table-responsive" style="overflow-x: scroll; overflow-y: scroll; height: 500px">
+                        <table class="table table-sm text-center" style="width: 100%" border="1">
+                            <tr>
+                                <td>#</td>
+                                @foreach (array_keys(current($dataMatrix)) as $book)
+                                    <td><b>{{ $book }}</b></td>
+                                @endforeach
+                            </tr>
+                            @foreach (array_keys($dataMatrix) as $user)
+                                <tr>
+                                    <td><b>{{ $user }}</b></td>
+                                    @foreach (array_keys($dataMatrix[$user]) as $book)
+                                        <td>{{ $dataMatrix[$user][$book] }}</td>
+                                    @endforeach
+                                </tr>
+                            @endforeach
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row justify-content-center mt-5">
-            <div class="col-lg-2 text-center">
-                <a href="javascript:void(0)" class="btn btn-primary" id="empty20">Lihat Pengosongan Rating 20%</a>
-            </div>
-        </div>
-        <div class="lds-roller ml-auto mr-auto mt-5" id="load20">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-        <div class="row" id="table20">
-            <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4>Matrix Pengosongan Rating 20%</h4>
-                    </div>
+            <div class="row justify-content-center mt-5">
+                <div class="col-lg-4 text-center">
+                    <a href="javascript:void(0)" class="btn btn-primary" onclick="getMaeMape(0.15)">Lihat Pengosongan Rating 15%</a>
                 </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <h4 class="mb-3 mt-5">Item-Based Prediction</h4>
-                        <div class="table-responsive text-center">
-                            <table class="table table-sm table-striped" id="predTableBook20" style="width: 100%">
-                                <thead>
-                                    <tr>
-                                        <td>ID Member</td>
-                                        <td>ID Buku</td>
-                                        <td>Nilai Prediksi</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <h4 class="mb-3 mt-5">User-Based Prediction</h4>
-                        <div class="table-responsive text-center">
-                            <table class="table table-sm table-striped" id="predTableMember20" style="width: 100%">
-                                <thead>
-                                    <tr>
-                                        <td>ID Member</td>
-                                        <td>ID Buku</td>
-                                        <td>Nilai Prediksi</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                <div class="col-lg-4 text-center">
+                    <a href="javascript:void(0)" class="btn btn-primary" onclick="getMaeMape(0.3)">Lihat Pengosongan Rating 30%</a>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <a href="javascript:void(0)" class="btn btn-primary" onclick="getMaeMape(0.45)">Lihat Pengosongan Rating 45%</a>
                 </div>
             </div>
-        </div>
-        <div class="row justify-content-center mt-5">
-            <div class="col-lg-2 text-center">
-                <a href="javascript:void(0)" class="btn btn-primary" id="empty30">Lihat Pengosongan Rating 30%</a>
+            <div class="lds-roller ml-auto mr-auto mt-5" id="loadBtn">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
             </div>
-        </div>
-        <div class="lds-roller ml-auto mr-auto mt-5" id="load30">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-        <div class="row" id="table30">
-            <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4>Matrix Pengosongan Rating 30%</h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <h4 class="mb-3 mt-5">Item-Based Prediction</h4>
-                        <div class="table-responsive text-center">
-                            <table class="table table-sm table-striped" id="predTableBook30" style="width: 100%">
-                                <thead>
-                                    <tr>
-                                        <td>ID Member</td>
-                                        <td>ID Buku</td>
-                                        <td>Nilai Prediksi</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+            <div class="row text-center" style="margin-top: 100px" id="tableValue">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h4 id="judul"></h4>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <h4 class="mb-3 mt-5">User-Based Prediction</h4>
-                        <div class="table-responsive text-center">
-                            <table class="table table-sm table-striped" id="predTableMember30" style="width: 100%">
-                                <thead>
-                                    <tr>
-                                        <td>ID Member</td>
-                                        <td>ID Buku</td>
-                                        <td>Nilai Prediksi</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6">
+                            <h4 class="mb-3 mt-5">Data Peminjaman Yang Dikosongkan</h4>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-striped" id="emptyTable" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <td>ID Member</td>
+                                            <td>ID Buku</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h4 class="mb-3 mt-5">Item-Based Prediction</h4>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-striped" id="predTableBook" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <td>ID Member</td>
+                                            <td>ID Buku</td>
+                                            <td>Nilai Prediksi</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-lg-12">
+                                    <h6 id="itemmae" class="text-primary"></h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <h4 class="mb-3 mt-5">User-Based Prediction</h4>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-striped" id="predTableMember" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <td>ID Member</td>
+                                            <td>ID Buku</td>
+                                            <td>Nilai Prediksi</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-lg-12">
+                                    <h6 id="usermae" class="text-primary"></h6>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
 @push('js')
     <script>
-        $('#load10').hide();
-        $('#load20').hide();
-        $('#load30').hide();
-        $('#empty20').hide();
-        $('#empty30').hide();
-        $('#table10').hide();
-        $('#table20').hide();
-        $('#table30').hide();
-        $(document).ready(function(){
+        $('#loadBtn').hide();
+        $('#tableValue').hide();
 
-            $('#empty10').click(function(){
-                $('#load10').show();
-                $.ajax({
-                    type: 'GET',
-                    url: '/recommendation/getMatrix/' + 0.1,
-                    success: function($data) {
-                        
-                    }
-                })
-                .done(function(response){
-                    $('#load10').hide();
-                    $('#table10').show();
-                    $('#empty20').show();
-                })
+        function getMaeMape(rate)
+        {
+            tableempty = $('#emptyTable').DataTable();
+            tablebookpred = $('#predTableBook').DataTable();
+            tablememberpred = $('#predTableMember').DataTable();
+            tableempty.clear().draw();
+            tablebookpred.clear().draw();
+            tablememberpred.clear().draw();
+            $('#loadBtn').show();
+            $('#tableValue').hide();
+            $.ajax({
+                type: 'GET',
+                url: '/recommendation/getMatrix/' + rate,
+                success: function(data) {
+                    $('#judul').text('Pengosongan Rating '+ rate * 100 +'%');
+
+                    $.each(data, function(title, datas){
+                        if (title == 'cleaned_loan') {
+                            $.each(datas, function(index, dataB) {
+                                tableempty.row.add([
+                                    dataB['member_id'],
+                                    dataB['book_id']
+                                ]).draw().node();
+                            })
+                        } else if (title == 'itemPred') {
+                            $.each(datas, function(index, dataB) {
+                                tablebookpred.row.add([
+                                    dataB['member_id'],
+                                    dataB['book_id'], 
+                                    dataB['prediction']
+                                ]).draw().node();
+                            })
+                        } else if (title == 'userPred') {
+                            $.each(datas, function(index, dataB) {
+                                tablememberpred.row.add([
+                                    dataB['member_id'],
+                                    dataB['book_id'], 
+                                    dataB['prediction']
+                                ]).draw().node();
+                            })
+                        } 
+                        $('#itemmae').text('Nilai MAE Item-Based : '+ data['itemMae']);
+                        $('#usermae').text('Nilai MAE User-Based : '+ data['userMae']);
+                    })
+                }
             })
-            $('#empty20').click(function(){
-                $('#load20').show();
-                $.ajax({
-                    type: 'GET',
-                    url: '/recommendation/getMatrix/' + 0.2,
-                    success: function($data) {
-                        
-                    }
-                })
-                .done(function(response){
-                    $('#load20').hide();
-                    $('#table20').show();
-                    $('#empty30').show();
-                })
+            .done(function(response) {
+                $('#loadBtn').hide();
+                $('#tableValue').show();
             })
-            $('#empty30').click(function(){
-                $('#load30').show();
-                $.ajax({
-                    type: 'GET',
-                    url: '/recommendation/getMatrix/' + 0.3,
-                    success: function($data) {
-                        
-                    }
-                })
-                .done(function(response){
-                    $('#load30').hide();
-                    $('#table30').show();
-                })
-            })
-        })
+        }
     </script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>

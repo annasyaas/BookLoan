@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Loan;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\SimilarityController;
 
@@ -11,8 +10,11 @@ class MaeMapeController extends Controller
 {
     public function getMaeMape()
     {
-        $this->matrix(0.45);
-        return view('dashboard.maemape.show');
+        $sim = new SimilarityController;
+
+        return view('dashboard.maemape.show', [
+            'dataMatrix' => $sim->matrix()
+        ]);
     }
     
     public function matrix($rate)
@@ -58,59 +60,41 @@ class MaeMapeController extends Controller
         }
 
         $prediction = $rec->prediction($matrix, $bookSims, $memberSims);
-        $itemPred = $prediction['itemPrediction'];
-        $userPred = $prediction['userPrediction'];
         $sum_item_mae = 0;
         $sum_user_mae = 0;
-        // $sum_item_mape = 0;
-        // $sum_user_mape = 0;
 
-        foreach ($itemPred as $member_id => $books) {
+        foreach ($prediction['itemPrediction'] as $member_id => $books) {
             foreach ($books as $book_id => $value) {
-                $error_item[] = [
+                $itemPred[] = [
                     'member_id' => $member_id,
                     'book_id' => $book_id,
-                    'value' => $value,
-                    'value_mae' => abs($value - 1),
-                    // 'value_mape' => (abs($value - 1)) / $value
+                    'prediction' => $value
                 ];
                 $temp_mae = abs($value - 1);
-                // $temp_mape = (abs($value - 1)) / $value;
                 $sum_item_mae = $sum_item_mae + $temp_mae;
-                // $sum_item_mape = $sum_item_mape + $temp_mape;
             }
         }
-        foreach ($userPred as $member_id => $books) {
+        foreach ($prediction['userPrediction'] as $member_id => $books) {
             foreach ($books as $book_id => $value) {
-                $error_user[] = [
+                $userPred[] = [
                     'member_id' => $member_id,
                     'book_id' => $book_id,
-                    'value' => $value,
-                    'value_mae' => abs($value - 1),
-                    // 'value_mape' => (abs($value - 1)) / $value
+                    'prediction' => $value
                 ];
                 $temp_mae = abs($value - 1);
-                // $temp_mape = (abs($value - 1)) / $value;
                 $sum_user_mae = $sum_user_mae + $temp_mae;
-                // $sum_user_mape = $sum_user_mape + $temp_mape;
             }
         }
         // Perhitungan nilai MAE 
-        $mae_item = $sum_item_mae / count($error_item);
-        $mae_user = $sum_user_mae / count($error_user);
-        // $mape_item = ($sum_item_mape * 100) / count($error_item);
-        // $mape_user = ($sum_user_mape * 100) / count($error_user);
-        dd($mae_item);
+        $mae_item = $sum_item_mae / count($itemPred);
+        $mae_user = $sum_user_mae / count($userPred);
         
-        return response()->json([
-            'itemPred' => $itemPred,
-            'userPred' => $userPred,
-            'itemError' => $error_item,
-            'userError' => $error_user,
-            'itemMae' => $mae_item,
-            'userMae' => $mae_user,
-            // 'itemMape' => $mape_item,
-            // 'userMape' => $mape_user
-        ], 200);
+        return [
+            'cleaned_loan' => $cleaned_rate,
+            'itemPred' => collect($itemPred),
+            'userPred' => collect($userPred),
+            'itemMae' => round($mae_item, 3),
+            'userMae' => round($mae_user, 3)
+        ];
     }
 }

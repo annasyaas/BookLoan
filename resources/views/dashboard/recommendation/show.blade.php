@@ -205,7 +205,6 @@
                                             'prediction']
                                     ]).draw().node();
                                 })
-
                             }
                         })
                     }
