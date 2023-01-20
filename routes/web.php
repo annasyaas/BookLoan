@@ -31,7 +31,9 @@ Route::get('/', function(){
 })->middleware('auth')->name('dashboard');
 
 Route::delete('/bookDelete', [BookController::class, 'deleteData'])->middleware('auth')->name('bookDelete');
-Route::resource('/book', BookController::class)->middleware('auth')->except('destroy');
+Route::resource('/book', BookController::class)->middleware('auth')->except('destroy', 'show', 'edit');
+Route::get('/book/show/{id}', [BookController::class, 'show'])->middleware('auth')->name('bookshow');
+Route::get('/book/edit/{id}', [BookController::class, 'edit'])->middleware('auth')->name('bookedit');
 Route::get('/getDatas', [BookController::class, 'datas'])->middleware('auth');
 
 Route::resource('/member', MemberController::class)->middleware('auth')->except('destroy');

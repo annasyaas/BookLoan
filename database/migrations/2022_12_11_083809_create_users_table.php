@@ -17,11 +17,11 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('username')->unique();
             $table->string('password');
-            $table->boolean('is_admin');
+            // $table->boolean('is_admin');
             $table->rememberToken();
             $table->timestamps();
-            $table->bigInteger('member')->unsigned();
-            $table->foreign('member')->references('id')->on('members')->onDelete('cascade');
+            // $table->bigInteger('member')->unsigned();
+            // $table->foreign('member')->references('id')->on('members')->onDelete('cascade');
         });
     }
 

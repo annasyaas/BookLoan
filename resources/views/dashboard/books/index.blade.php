@@ -53,11 +53,9 @@
                     { data: 'copy'},
                     { data: 'publisher'},
                     { data: null, render: function(dataField) {
-                        return "<button type='button' class='btn btn-sm btn-primary mr-1' data-toggle='modal' data-target='.bd-example-modal-lg'><i class='fa fa-eye'></i></button>" +
-                            "<a href='/book/" + dataField['id'] +
-                            "/edit' class='btn btn-sm btn-warning mr-1'> <i class='fa fa-pencil-alt'></i></a>" +
-                            "<a href='javascript:void(0)' class='btn btn-sm btn-danger button' data-id=" +
-                            dataField['id'] + ">" +
+                        return "<a href='/book/show/"+ dataField['id'] +"' type='button' class='btn btn-sm btn-primary mr-1'><i class='fa fa-eye'></i></a>" +
+                            "<a href='/book/edit/" + dataField['id'] +"' class='btn btn-sm btn-warning mr-1'> <i class='fa fa-pencil-alt'></i></a>" +
+                            "<a href='javascript:void(0)' class='btn btn-sm btn-danger button' data-id=" + dataField['id'] + ">" +
                             "<i class='fa fa-trash'></i></a>"
                     }}
                 ]

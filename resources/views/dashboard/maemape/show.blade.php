@@ -91,7 +91,7 @@
                             </div>
                             <div class="row mt-5">
                                 <div class="col-lg-12">
-                                    <h6 id="itemmae" class="text-primary"></h6>
+                                    <h5 id="itemmae" class="text-primary"></h5>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +112,7 @@
                             </div>
                             <div class="row mt-5">
                                 <div class="col-lg-12">
-                                    <h6 id="usermae" class="text-primary"></h6>
+                                    <h5 id="usermae" class="text-primary"></h5>
                                 </div>
                             </div>
                         </div>

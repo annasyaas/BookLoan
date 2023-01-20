@@ -16,25 +16,11 @@ class UserSeederTable extends Seeder
 
     public function run()
     {
-        $datas = [[
+        $datas = [
             'id' => 1,
-            'username' => 'annasya',
+            'username' => 'admin',
             'password' => bcrypt('12345'),
-            'member' => 1,
-            'is_admin' => 1
-        ],[
-            'id' => 2,
-            'username' => 'aliffia',
-            'password' => bcrypt('12345'),
-            'member' => 2,
-            'is_admin' => 0
-        ],[
-            'id' => 3,
-            'username' => 'gandhi',
-            'password' => bcrypt('12345'),
-            'member' => 3,
-            'is_admin' => 0
-        ]];
+        ];
 
         DB::table('users')->insert($datas);
     }

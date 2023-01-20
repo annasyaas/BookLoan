@@ -54,8 +54,10 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function show(Book $book)
+    public function show($id)
     {
+        $book = Book::where('id', $id)->first();
+        
         return view('dashboard.books.show', [
             'book' => $book
         ]);
@@ -67,8 +69,10 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function edit(Book $book)
+    public function edit($id)
     {
+        $book = Book::where('id', $id)->first();
+
         return view('dashboard.books.edit', [
             'book' => $book
         ]);
