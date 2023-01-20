@@ -55,7 +55,7 @@ class MemberController extends Controller
      */
     public function show(Member $member)
     {
-        $rec = Recommendation::with('book')->where('member_id', 15)->get();
+        $rec = Recommendation::with('book')->where('member_id', $member->id)->get();
 
         if($rec->isNotEmpty()) {
             $items = $rec->where('method', 1);
@@ -104,14 +104,22 @@ class MemberController extends Controller
      * @param  \App\Models\Member  $member
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Member $member)
+    public function deleteData(Request $request)
     {
-        $item = Member::where('id', $member->id);
+        Member::destroy($request['id']);
+
+        return response()->json('berhasil', 200);
         
-        if($item->delete()){
-            return redirect()->route('member.index')->with('success', 'Data Member berhasil dihapus.');
-        }else{
-            return redirect()->route('member.index')->with('failed', 'Data Member tidak berhasil dihapus.');
+    }
+
+    public function getMember()
+    {
+        $members = Member::orderBy('id', 'ASC')->get();
+        $i = 1;
+        foreach ($members as $member) {
+            $member['number'] = $i++;
         }
+
+        return response()->json($members, 200);
     }
 }

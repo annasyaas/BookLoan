@@ -41,26 +41,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($members as $member)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $member->member_id }}</td>
-                                    <td>{{ $member->name }}</td>
-                                    <td>{{ $member->institution }}</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('member.show', $member->id) }}" class="btn btn-sm btn-primary"><i
-                                            class="fa fa-eye"></i></a>
-                                        <a href="{{ route('member.edit', $member->id) }}" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-pencil-alt"></i></a>
-                                        <form action="{{ route('member.destroy', $member->id) }}" method="post"
-                                            class="d-inline">
-                                            @method('delete')
-                                            @csrf
-                                            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -73,7 +53,59 @@
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#dataTable').DataTable();
+            $('#dataTable').DataTable({
+                ajax: {
+                    url: '{{ route('getmember') }}',
+                    dataSrc: ''
+                },
+                columns: [
+                    { data: 'number'},
+                    { data: 'member_id'},
+                    { data: 'name'},
+                    { data: 'institution'},
+                    { data: null, render: function(dataField) {
+                        return '<a href="/member/'+ dataField["id"] +'" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Lihat Rekomendasi">'+
+                            '<i class="fa fa-eye"></i></a> <a href="/member/'+ dataField["id"] +'/edit" class="btn btn-sm btn-warning mr-1"><i class="fa fa-pencil-alt"></i></a>' +
+                            '<a href="javascript:void(0)" class="btn btn-sm btn-danger button" data-id= '+ dataField["id"] + ">" +
+                            '<i class="fa fa-trash"></i></a>'
+                    }}
+                ]
+            });
+
+            $(document).on('click', '.button', function(e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                var url = "{{ route('memberDelete') }}";
+                
+                Swal.fire({
+                    title: 'Apakah anda yakin ingin menghapus?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Hapus',
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                                id: id,
+                                _method: 'delete',
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(data) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Data Member berhasil dihapus!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                $('#dataTable').DataTable().ajax.reload(null, false);
+                            }
+                        });
+                    }
+                })
+            })
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
             })
