@@ -6,12 +6,12 @@
 @section('container')
     <div class="section">
         <div class="section-header">
-            <h1>Comparison Page</h1>
+            <h1>Halaman Perbandingan Akurasi</h1>
         </div>
         <div class="section-body">
             <div class="row">
                 <div class="col-lg-12">
-                    <h4 class="mb-3 ">Matrix</h4>
+                    <h4 class="mb-3 ">Matriks User x Item</h4>
                     <div class="table-responsive" style="overflow-x: scroll; overflow-y: scroll; height: 500px">
                         <table class="table table-sm text-center" style="width: 100%" border="1">
                             <tr>
@@ -34,13 +34,13 @@
             </div>
             <div class="row justify-content-center mt-5">
                 <div class="col-lg-4 text-center">
-                    <a href="javascript:void(0)" class="btn btn-primary" onclick="getMaeMape(0.15)">Lihat Pengosongan Rating 15%</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" onclick="getMaeMape(0.15)">MAE Pengosongan Rating 15%</a>
                 </div>
                 <div class="col-lg-4 text-center">
-                    <a href="javascript:void(0)" class="btn btn-primary" onclick="getMaeMape(0.3)">Lihat Pengosongan Rating 30%</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" onclick="getMaeMape(0.3)">MAE Pengosongan Rating 30%</a>
                 </div>
                 <div class="col-lg-4 text-center">
-                    <a href="javascript:void(0)" class="btn btn-primary" onclick="getMaeMape(0.45)">Lihat Pengosongan Rating 45%</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" onclick="getMaeMape(0.45)">MAE Pengosongan Rating 45%</a>
                 </div>
             </div>
             <div class="lds-roller ml-auto mr-auto mt-5" id="loadBtn">
@@ -63,7 +63,7 @@
                                 <table class="table table-sm table-striped" id="emptyTable" style="width: 100%">
                                     <thead>
                                         <tr>
-                                            <td>ID Member</td>
+                                            <td>ID Anggota</td>
                                             <td>ID Buku</td>
                                         </tr>
                                     </thead>
@@ -75,12 +75,12 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <h4 class="mb-3 mt-5">Item-Based Prediction</h4>
+                            <h4 class="mb-3 mt-5">Prediksi Item-Based</h4>
                             <div class="table-responsive">
                                 <table class="table table-sm table-striped" id="predTableBook" style="width: 100%">
                                     <thead>
                                         <tr>
-                                            <td>ID Member</td>
+                                            <td>ID Anggota</td>
                                             <td>ID Buku</td>
                                             <td>Nilai Prediksi</td>
                                         </tr>
@@ -96,12 +96,12 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <h4 class="mb-3 mt-5">User-Based Prediction</h4>
+                            <h4 class="mb-3 mt-5">Prediksi User-Based</h4>
                             <div class="table-responsive">
                                 <table class="table table-sm table-striped" id="predTableMember" style="width: 100%">
                                     <thead>
                                         <tr>
-                                            <td>ID Member</td>
+                                            <td>ID Anggota</td>
                                             <td>ID Buku</td>
                                             <td>Nilai Prediksi</td>
                                         </tr>

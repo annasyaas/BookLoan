@@ -5,7 +5,7 @@
 @section('container')
     <section class="section">
         <div class="section-header">
-            <h1>Book Page</h1>
+            <h1>Halaman Buku</h1>
         </div>
         <div class="section-body">
             @if (session()->has('success'))
@@ -20,7 +20,7 @@
             @endif
             <div>
                 <div class="table-responsive col-lg-12">
-                    <a href="{{ route('book.create') }}" class="btn btn-primary mb-3">Create New</a>
+                    <a href="{{ route('book.create') }}" class="btn btn-primary mb-3">Buat Baru</a>
                     <table class="table table-sm table-striped" id="dataTable" style="width: 100%">
                         <thead>
                             <tr>

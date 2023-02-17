@@ -11,7 +11,7 @@
 @section('container')
     <section class="section">
         <div class="section-header">
-            <h1>Create Loan Page</h1>
+            <h1>Halaman Tambah Peminjaman</h1>
         </div>
         <div class="section-body">
             <div class="col-lg-12">
@@ -21,7 +21,7 @@
                         <div class="col-lg-5">
                             <div class="mb-3">
                                 <div class="form-group">
-                                    <label for="memberSelect">Member</label>
+                                    <label for="memberSelect">Anggota</label>
                                     <select class="form-select form-select-sm" name="member_id" id="memberSelect"
                                         data-placeholder="Pilih Member">
                                         <option value=""></option>
@@ -59,8 +59,8 @@
                         <div class="col-lg-2">
                             <div class="mb-3">
                                 <div class="form-group">
-                                    <label for="copy">Sisa Copy Buku</label>
-                                    <input type="text" class="form-control" id="copy" disabled>
+                                    <label for="copy">Sisa Salinan Buku</label>
+                                    <input type="text" class="form-control" id="copy">
                                 </div>
                             </div>
                         </div>

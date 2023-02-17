@@ -3,7 +3,7 @@
 @section('container')
     <section class="section">
         <div class="section-header">
-            <h1>Create Book Page</h1>
+            <h1>Halaman Tambah Buku</h1>
         </div>
         <div class="section-body">
             <div class="col-lg-12">

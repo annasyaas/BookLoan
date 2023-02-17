@@ -2,7 +2,7 @@
 @section('container')
     <div class="section">
         <div class="section-header">
-            <h1>Detail Book Page</h1>
+            <h1>Halaman Detail Buku</h1>
         </div>
         <div class="section-body">
             <div class="col-lg-11" style="margin-left: 50px; margin-top: 60px">

@@ -11,7 +11,7 @@
 @section('container')
     <section class="section">
         <div class="section-header">
-            <h1>Edit Loan Page</h1>
+            <h1>Halaman Edit Peminjaman</h1>
         </div>
         <div class="section-body">
             <div class="col-lg-12">
@@ -22,7 +22,7 @@
                         <div class="col-lg-6">
                             <div class="mb-3">
                                 <div class="form-group">
-                                    <label for="memberSelect">Member</label>
+                                    <label for="memberSelect">Anggota</label>
                                     <select class="form-select form-select-sm" name="member_id" id="memberSelect"
                                         data-placeholder="Pilih Member">
                                         <option value=""></option>
@@ -99,7 +99,7 @@
                             <a href="{{ route('loan.index') }}" class="btn btn-success text-decoration-none mr-2">
                                 <span data-feather="arrow-left"></span> Kembali
                             </a>
-                            <button type="submit" class="btn btn-primary">Update Peminjaman</button>
+                            <button type="submit" class="btn btn-primary">Perbarui Peminjaman</button>
                         </div>
                     </div>
                 </form>
