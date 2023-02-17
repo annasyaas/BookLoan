@@ -120,7 +120,7 @@
             </div>
             <div class="row justify-content-center mt-5">
                 <div class="col-lg-2 text-center">
-                    <a href="{{ route('getmaemape') }}" class="btn btn-primary" id="btnMae">Lihat Mae & Mape</a>
+                    <a href="{{ route('getmaemape') }}" class="btn btn-primary" id="btnMae">Lihat Mae</a>
                 </div>
             </div>
         </div>

@@ -117,6 +117,14 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row justify-content-center mt-5 mb-5">
+                        <div class="col-lg-6">
+                            <div class="alert alert-primary" role="alert">
+                                <h4 class="alert-heading text-center">Kesimpulan</h4>
+                                <p id="bestMae" class="text-center" style="font-size: 16px"></p>
+                              </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -142,7 +150,6 @@
                 url: '/recommendation/getMatrix/' + rate,
                 success: function(data) {
                     $('#judul').text('Pengosongan Rating '+ rate * 100 +'%');
-
                     $.each(data, function(title, datas){
                         if (title == 'cleaned_loan') {
                             $.each(datas, function(index, dataB) {
@@ -170,6 +177,11 @@
                         } 
                         $('#itemmae').text('Nilai MAE Item-Based : '+ data['itemMae']);
                         $('#usermae').text('Nilai MAE User-Based : '+ data['userMae']);
+                        if(data['itemMae'] < data['userMae']) {
+                            $('#bestMae').text('Metode Item-Based Collaborative Filtering memiliki akurasi yang lebih baik di pengosongan rating '+ rate * 100 +'%');
+                        } else if(data['itemMae'] > data['userMae']) {
+                            $('#bestMae').text('Metode User-Based Collaborative Filtering memiliki akurasi yang lebih baik di pengosongan rating '+ rate * 100 +'%');
+                        }
                     })
                 }
             })

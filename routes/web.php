@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
@@ -26,9 +27,7 @@ Route::post('/login', [LoginController::class, 'authenticate']);
 
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
 
-Route::get('/', function(){
-    return view('dashboard.index');
-})->middleware('auth')->name('dashboard');
+Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 
 Route::delete('/bookDelete', [BookController::class, 'deleteData'])->middleware('auth')->name('bookDelete');
 Route::resource('/book', BookController::class)->middleware('auth')->except('destroy', 'show', 'edit');

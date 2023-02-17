@@ -7,10 +7,10 @@
         <div class="section-header">
             <h1>Buku Yang Mungkin Member Sukai</h1>
         </div>
-        <div class="section-body mt-5">
+        <div class="section-body mt-3">
             <div class="row mb-5">
                 <div class="col-lg-12">
-                    <h4 class="text-center">Item-Based Prediction</h4>
+                    {{-- <h4 class="text-center">Item-Based Prediction</h4> --}}
                     <div class="table-responsive col-lg-12 mt-5">
                         <table class="table table-bordered table-md" id="dataTable">
                             <thead>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-lg-12">
                     <h4 class="text-center">User-Based Prediction</h4>
                     <div class="table-responsive col-lg-12 mt-5">
@@ -60,6 +60,13 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div> --}}
+            <div class="row text-center mt-4">
+                <div class="col-lg-12">
+                    <a href="{{ route('member.index') }}" class="btn btn-success text-decoration-none mr-2">
+                        <span data-feather="arrow-left"></span> Kembali
+                    </a>
                 </div>
             </div>
         </div>

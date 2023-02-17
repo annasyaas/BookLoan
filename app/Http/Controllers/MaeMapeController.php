@@ -19,12 +19,12 @@ class MaeMapeController extends Controller
     
     public function matrix($rate)
     {
-        $members = Loan::whereIn('member_id', function($query){
+        $member = Loan::whereIn('member_id', function($query){
             $query->select('member_id')->from('loans')
             ->groupBy('member_id')
             ->having(DB::raw('count(*)'), '>=', '5')->get();
         })->get();
-        $cleaned_rate = $members->random(count($members) * $rate); // random peminjaman yang akan di set nilai 0 pada matrix
+        $cleaned_rate = $member->random(count($member) * $rate); // random peminjaman yang akan di set nilai 0 pada matrix
         $sim = new SimilarityController;
         $rec = new RecommendationController;
         $matrix = $sim->matrix();
@@ -86,9 +86,10 @@ class MaeMapeController extends Controller
             }
         }
         // Perhitungan nilai MAE 
-        $mae_item = $sum_item_mae / count($itemPred);
-        $mae_user = $sum_user_mae / count($userPred);
-        
+        $count = count($member) - count($cleaned_rate);
+        $mae_item = $sum_item_mae / $count;
+        $mae_user = $sum_user_mae / $count;
+
         return [
             'cleaned_loan' => $cleaned_rate,
             'itemPred' => collect($itemPred),

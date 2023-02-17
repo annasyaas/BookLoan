@@ -59,10 +59,10 @@ class MemberController extends Controller
 
         if($rec->isNotEmpty()) {
             $items = $rec->where('method', 1);
-            $users = $rec->where('method', 0);
+            // $users = $rec->where('method', 0);
             return view('dashboard.members.show', [
                 'items' => $items,
-                'users' => $users
+                // 'users' => $users
             ]);
         } else {
             return redirect()->route('member.index')->with('failed', 'Member belum meminjam minimal 5 buku.');
