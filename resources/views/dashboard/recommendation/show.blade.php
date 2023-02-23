@@ -6,12 +6,12 @@
 @section('container')
     <div class="section">
         <div class="section-header">
-            <h1>Halaman Rekomendasi</h1>
+            <h1>Recommendation Page</h1>
         </div>
         <div class="section-body">
             <div class="row">
                 <div class="col-lg-12">
-                    <h4 class="mb-3 ">Matriks User x Item</h4>
+                    <h4 class="mb-3 ">Matrix User x Item</h4>
                     <div class="table-responsive" style="overflow-x: scroll; overflow-y: scroll; height: 500px">
                         <table class="table table-sm text-center" style="width: 100%" border="1">
                             <tr>
@@ -34,7 +34,7 @@
             </div>
             <div class="row justify-content-center mt-3">
                 <div class="col-lg-3 text-center">
-                    <a href="javascript:void(0)" class="btn btn-primary" id="simBtn">Lihat Nilai Similarity</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" id="simBtn">Similarity</a>
                 </div>
             </div>
             <div class="lds-roller ml-auto mr-auto mt-5" id="loadsim">
@@ -45,28 +45,28 @@
             </div>
             <div class="row" id="similarity">
                 <div class="col-lg-6">
-                    <h4 class="mb-3 mt-5">Similarity Item</h4>
+                    <h4 class="mb-3 mt-5">Item Similarity</h4>
                     <div class="table-responsive text-center">
                         <table class="table table-sm table-striped" id="simTableBook" style="width: 100%">
                             <thead>
                                 <tr>
-                                    <td>ID Buku ke-1</td>
-                                    <td>ID Buku ke-2</td>
-                                    <td>Nilai Similarity</td>
+                                    <td>Book ID 1</td>
+                                    <td>Book ID 2</td>
+                                    <td>Similarity Value</td>
                                 </tr>
                             </thead>
                         </table>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <h4 class="mb-3 mt-5">Similarity User</h4>
+                    <h4 class="mb-3 mt-5">User Similarity</h4>
                     <div class="table-responsive text-center">
                         <table class="table table-sm table-striped" id="simTableMember" style="width: 100%">
                             <thead>
                                 <tr>
-                                    <td>ID Anggota ke-1</td>
-                                    <td>ID Anggota ke-2</td>
-                                    <td>Nilai Similarity</td>
+                                    <td>Member ID 1</td>
+                                    <td>Member ID 2</td>
+                                    <td>Similarity Value</td>
                                 </tr>
                             </thead>
                         </table>
@@ -75,7 +75,7 @@
             </div>
             <div class="row justify-content-center mt-5">
                 <div class="col-lg-2 text-center">
-                    <a href="javascript:void(0)" class="btn btn-primary" id="predBtn">Lihat Rekomendasi</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" id="predBtn">Recommendation</a>
                 </div>
             </div>
             <div class="lds-roller ml-auto mr-auto mt-5" id="loadpred">
@@ -86,14 +86,14 @@
             </div>
             <div class="row" id="prediction">
                 <div class="col-lg-6">
-                    <h4 class="mb-3 mt-5">Prediksi Item-Based</h4>
+                    <h4 class="mb-3 mt-5">Item-Based Prediction</h4>
                     <div class="table-responsive text-center">
                         <table class="table table-sm table-striped" id="predTableBook" style="width: 100%">
                             <thead>
                                 <tr>
-                                    <td>ID Anggota</td>
-                                    <td>ID Buku</td>
-                                    <td>Nilai Prediksi</td>
+                                    <td>Member ID</td>
+                                    <td>Book ID</td>
+                                    <td>Prediction Value</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -102,14 +102,14 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <h4 class="mb-3 mt-5">Prediksi User-Based</h4>
+                    <h4 class="mb-3 mt-5">User-Based Prediction</h4>
                     <div class="table-responsive text-center">
                         <table class="table table-sm table-striped" id="predTableMember" style="width: 100%">
                             <thead>
                                 <tr>
-                                    <td>ID Anggota</td>
-                                    <td>ID Buku</td>
-                                    <td>Nilai Prediksi</td>
+                                    <td>Member ID</td>
+                                    <td>Book ID</td>
+                                    <td>Prediction Value</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -120,7 +120,7 @@
             </div>
             <div class="row justify-content-center mt-5">
                 <div class="col-lg-2 text-center">
-                    <a href="{{ route('getmaemape') }}" class="btn btn-primary" id="btnMae">Lihat Mae</a>
+                    <a href="{{ route('getmaemape') }}" class="btn btn-primary" id="btnMae">MAE</a>
                 </div>
             </div>
         </div>

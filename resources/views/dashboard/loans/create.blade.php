@@ -11,7 +11,7 @@
 @section('container')
     <section class="section">
         <div class="section-header">
-            <h1>Halaman Tambah Peminjaman</h1>
+            <h1>Add Book Borrowing Page</h1>
         </div>
         <div class="section-body">
             <div class="col-lg-12">
@@ -21,7 +21,7 @@
                         <div class="col-lg-5">
                             <div class="mb-3">
                                 <div class="form-group">
-                                    <label for="memberSelect">Anggota</label>
+                                    <label for="memberSelect">Member</label>
                                     <select class="form-select form-select-sm" name="member_id" id="memberSelect"
                                         data-placeholder="Pilih Member">
                                         <option value=""></option>
@@ -40,7 +40,7 @@
                         <div class="col-lg-5">
                             <div class="mb-3">
                                 <div class="form-group">
-                                    <label for="bookSelect">Buku</label>
+                                    <label for="bookSelect">Book</label>
                                     <select class="form-select form-select-sm" name="book_id" id="bookSelect"
                                         data-placeholder="Pilih Buku" onchange="bookFunc(this)">
                                         <option value=""></option>
@@ -59,7 +59,7 @@
                         <div class="col-lg-2">
                             <div class="mb-3">
                                 <div class="form-group">
-                                    <label for="copy">Sisa Salinan Buku</label>
+                                    <label for="copy">Number of Copies</label>
                                     <input type="text" class="form-control" id="copy">
                                 </div>
                             </div>
@@ -68,7 +68,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="mb-3">
-                                <label for="copy_code" class="form-label">Kode Eksemplar</label>
+                                <label for="copy_code" class="form-label">Copy Code</label>
                                 <input type="text" class="form-control @error('copy_code') is-invalid @enderror"
                                     id="copy_code" name="copy_code" value="{{ old('copy_code') }}" required>
                                 @error('copy_code')
@@ -80,7 +80,7 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="mb-3">
-                                <label for="loan_date" class="form-label">Tanggal Meminjam</label>
+                                <label for="loan_date" class="form-label">Borrowing Date</label>
                                 <input class="form-control" type="date" id="loan_date" name="loan_date" required>
                                 @error('loan_date')
                                     <div class="invalid-feedback">
@@ -91,7 +91,7 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="mb-3">
-                                <label for="date_returned" class="form-label">Tanggal Harus Kembali</label>
+                                <label for="date_returned" class="form-label">Date Must Return</label>
                                 <input class="form-control" type="date" id="date_returned" name="date_returned" required>
                                 @error('date_returned')
                                     <div class="invalid-feedback">
@@ -104,9 +104,9 @@
                     <div class="row text-center mt-4">
                         <div class="col-lg-12">
                             <a href="{{ route('loan.index') }}" class="btn btn-success text-decoration-none mr-2">
-                                <span data-feather="arrow-left"></span> Kembali
+                                <span data-feather="arrow-left"></span> Back
                             </a>
-                            <button type="submit" class="btn btn-primary">Tambah Peminjaman</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
                         </div>
                     </div>
                 </form>

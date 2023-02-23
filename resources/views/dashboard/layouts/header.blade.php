@@ -15,13 +15,13 @@
         <li class="dropdown"><a href="#" data-toggle="dropdown"
                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                 <img alt="image" src="{{ asset("admin/assets/img/avatar/avatar-1.png") }}" class="rounded-circle mr-1">
-                <div class="d-sm-none d-lg-inline-block">Halo, Admin</div>
+                <div class="d-sm-none d-lg-inline-block">Hi, Admin</div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <form action="{{ route('logout') }}" method="post">
                     @csrf
                     <button type="submit" class="dropdown-item has-icon text-danger">
-                        <i class="fas fa-sign-out-alt mt-2"></i> Keluar
+                        <i class="fas fa-sign-out-alt mt-2"></i> Logout
                     </button>
                 </form>
             </div>

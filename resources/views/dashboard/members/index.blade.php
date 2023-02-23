@@ -5,7 +5,7 @@
 @section('container')
     <div class="section">
         <div class="section-header">
-            <h1>Halaman Anggota</h1>
+            <h1>Member Page</h1>
         </div>
         <div class="section-body">
             @if (session()->has('success'))
@@ -29,15 +29,15 @@
             @endif
             <div>
                 <div class="table-responsive col-lg-12">
-                    <a href="{{ route('member.create') }}" class="btn btn-primary mb-3">Buat Baru</a>
+                    <a href="{{ route('member.create') }}" class="btn btn-primary mb-3">Create New</a>
                     <table class="table table-striped table-sm" id="dataTable">
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">No. Anggota</th>
-                                <th scope="col">Nama Anggota</th>
-                                <th scope="col">Institusi</th>
-                                <th scope="col" class="text-center" width="20%">Aksi</th>
+                                <th scope="col">Member ID</th>
+                                <th scope="col">Member Name</th>
+                                <th scope="col">Institution</th>
+                                <th scope="col" class="text-center" width="20%">Action</th>
                             </tr>
                         </thead>
                         <tbody>

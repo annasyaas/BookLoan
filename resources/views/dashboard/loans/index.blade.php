@@ -5,7 +5,7 @@
 @section('container')
     <div class="section">
         <div class="section-header text-center">
-            <h1>Halaman Peminjaman Buku</h1>
+            <h1>Book Borrowing Page</h1>
         </div>
         <div class="section-body">
             @if (session()->has('success'))
@@ -29,19 +29,19 @@
             @endif
             <div>
                 <div class="table-responsive col-lg-12">
-                    <a href="{{ route('loan.create') }}" class="btn btn-primary mb-3">Buat Baru</a>
+                    <a href="{{ route('loan.create') }}" class="btn btn-primary mb-3">Create New</a>
                     <table class="table table-sm table-striped" id="dataTable">
                         <thead>
                             <tr>
                                 <th scope="col" width="3%">No</th>
-                                <th scope="col">No. Anggota</th>
-                                <th scope="col">Nama Anggota</th>
-                                <th scope="col">Judul Buku</th>
-                                <th scope="col">Kode Eksemplar</th>
-                                <th scope="col" width="10%">Tgl Pinjam</th>
-                                <th scope="col" width="10%">Tgl Harus Kembali</th>
+                                <th scope="col">Member ID</th>
+                                <th scope="col">Member Name</th>
+                                <th scope="col">Book Title</th>
+                                <th scope="col">Book Copy Code</th>
+                                <th scope="col" width="10%">Date Borrowing</th>
+                                <th scope="col" width="10%">Date Returned</th>
                                 <th scope="col">Status</th>
-                                <th scope="col" class="text-center" width="7%">Aksi</th>
+                                <th scope="col" class="text-center" width="7%">Action</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -5,7 +5,7 @@
 @section('container')
     <div class="section">
         <div class="section-header">
-            <h1>Buku Yang Mungkin Member Sukai</h1>
+            <h1>Books Member Might Like</h1>
         </div>
         <div class="section-body mt-3">
             <div class="row mb-5">
@@ -15,10 +15,10 @@
                         <table class="table table-bordered table-md" id="dataTable">
                             <thead>
                                 <th scope="col" width="8%">No</th>
-                                <th scope="col" width="12%">Nomor Panggil</th>
-                                <th scope="col" width="30%">Judul</th>
-                                <th scope="col" width="8%">Salin</th>
-                                <th scope="col" width="15%">Penerbit</th>
+                                <th scope="col" width="12%">Call Number</th>
+                                <th scope="col" width="30%">Title</th>
+                                <th scope="col" width="8%">Copies</th>
+                                <th scope="col" width="15%">Publisher</th>
                             </thead>
                             <tbody>
                                 @foreach ($items as $item)
@@ -65,7 +65,7 @@
             <div class="row text-center mt-4">
                 <div class="col-lg-12">
                     <a href="{{ route('member.index') }}" class="btn btn-success text-decoration-none mr-2">
-                        <span data-feather="arrow-left"></span> Kembali
+                        <span data-feather="arrow-left"></span> Back
                     </a>
                 </div>
             </div>

@@ -3,7 +3,7 @@
 @section('container')
     <section class="section">
         <div class="section-header">
-            <h1>Halaman Tambah Buku</h1>
+            <h1>Add Book Page</h1>
         </div>
         <div class="section-body">
             <div class="col-lg-12">
@@ -12,7 +12,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="mb-3">
-                                <label for="call_number" class="form-label">Nomor Panggil Buku</label>
+                                <label for="call_number" class="form-label">Book Call Number</label>
                                 <input type="text" class="form-control @error('call_number') is-invalid @enderror" id="call_number"
                                     name="call_number" value="{{ old('call_number') }}" required autofocus>
                                 @error('call_number')
@@ -24,7 +24,7 @@
                         </div>
                         <div class="col-lg-8">
                             <div class="mb-3">
-                                <label for="title" class="form-label">Judul Buku</label>
+                                <label for="title" class="form-label">Book Title</label>
                                 <input type="text" class="form-control @error('title') is-invalid @enderror" id="title"
                                     name="title" value="{{ old('title') }}" required>
                                 @error('title')
@@ -38,7 +38,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="mb-3">
-                                <label for="copy" class="form-label">Jumlah Salin Buku</label>
+                                <label for="copy" class="form-label">Number of Copies</label>
                                 <input type="number" min="1" class="form-control @error('copy') is-invalid @enderror" id="copy"
                                     name="copy" value="{{ old('copy') }}" required>
                                 @error('copy')
@@ -50,7 +50,7 @@
                         </div>
                         <div class="col-lg-8">
                             <div class="mb-3">
-                                <label for="publish_place" class="form-label">Tempat Terbit Buku</label>
+                                <label for="publish_place" class="form-label">Publish Place</label>
                                 <input type="text" class="form-control @error('publish_place') is-invalid @enderror" id="publish_place"
                                     name="publish_place" value="{{ old('publish_place') }}" required>
                                 @error('publish_place')
@@ -64,7 +64,7 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <div class="mb-3">
-                                <label for="publisher" class="form-label">Penerbit Buku</label>
+                                <label for="publisher" class="form-label">Publisher</label>
                                 <input type="text" class="form-control @error('publisher') is-invalid @enderror" id="publisher"
                                     name="publisher" value="{{ old('publisher') }}" required>
                                 @error('publisher')
@@ -76,7 +76,7 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="mb-3">
-                                <label for="isbn_issn" class="form-label">ISBN/ISSN Buku</label>
+                                <label for="isbn_issn" class="form-label">ISBN/ISSN</label>
                                 <input type="text" class="form-control @error('isbn_issn') is-invalid @enderror" id="isbn_issn"
                                     name="isbn_issn" value="{{ old('isbn_issn') }}" required>
                                 @error('isbn_issn')
@@ -90,9 +90,9 @@
                     <div class="row text-center mt-4">
                         <div class="col-lg-12">
                             <a href="{{ route('book.index') }}" class="btn btn-success text-decoration-none mr-2">
-                                <span data-feather="arrow-left"></span> Kembali
+                                <span data-feather="arrow-left"></span> Back
                             </a>
-                            <button type="submit" class="btn btn-primary">Tambah Buku</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
                         </div>
                     </div>
                 </form>
