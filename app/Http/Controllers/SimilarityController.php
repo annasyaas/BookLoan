@@ -16,7 +16,7 @@ class SimilarityController extends Controller
     }
 
     public function matrix(){
-        // ambil member yang telah meminjam lebih dari sama dengan 3
+        // ambil member yang telah meminjam lebih dari sama dengan 5
         $members = Loan::select('member_id')->whereIn('member_id', function($query){
             $query->select('member_id')->from('loans')
             ->groupBy('member_id')

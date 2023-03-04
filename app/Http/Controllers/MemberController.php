@@ -41,7 +41,7 @@ class MemberController extends Controller
     public function store(MemberRequest $request)
     {
         $datas = $request->validated();
-
+       
         Member::create($datas);
 
         return redirect('/member')->with('success', 'Data Member berhasil disimpan');

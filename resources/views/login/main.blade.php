@@ -20,7 +20,7 @@
 
     @stack('css')
 
-    <title>Book Loan UNMUL</title>
+    <title>Book Borrowing UNMUL</title>
 </head>
 
 <body>

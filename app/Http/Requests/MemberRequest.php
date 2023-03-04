@@ -24,8 +24,9 @@ class MemberRequest extends FormRequest
     public function rules()
     {
         return [
-            'member_id' => 'required',
-            'name' => 'required'
+            'member_id' => 'required|unique:members',
+            'name' => 'required',
+            'institution' => 'required'
         ];
     }
 }
